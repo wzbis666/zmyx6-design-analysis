@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon/favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon/favicon-64x64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="assets/favicon/favicon-128x128.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/icon-512.png">
+<link rel="shortcut icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+<meta name="theme-color" content="#2b1a08">
+<title>《造梦西游6：黎尤浩劫篇》系统策划拆解案</title>
+<link rel="preconnect" href="https://fonts.loli.net">
+<link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+/* ============ 游戏化设计系统：复刻《造梦西游6》UI语言 ============ */
+:root{
+  --wood-deep:#241505;      /* 深木（导航/外框） */
+  --wood:#4a2f18;            /* 主木色（面板框） */
+  --wood-mid:#5f3e1f;
+  --paper:#f3e7c9;           /* 羊皮纸底 */
+  --paper-light:#faf3e0;
+  --paper-dark:#e6d5ac;
+  --gold:#e9c268;            /* 鎏金 */
+  --gold-light:#ffe9a8;
+  --gold-dark:#b98a35;
+  --ink:#3b2513;             /* 墨字 */
+  --ink-soft:#6b4e2e;
+  --seal:#c03428;            /* 朱印红 */
+  --seal-dark:#8f2117;
+  --night:#141f28;           /* 暗夜蓝（战斗/地府） */
+  --night-2:#1d2f3d;
+  --ghost:#6fe08a;           /* 幽绿鬼火 */
+  --teal-tag:#2f7a6e;
+  --purple-tag:#6b4fa0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{
+  font-family:'ZCOOL XiaoWei','Microsoft YaHei',sans-serif;
+  background:
+    radial-gradient(1200px 500px at 50% -100px, rgba(233,194,104,.10), transparent 60%),
+    linear-gradient(180deg,#2b1c0e 0,#1d1208 240px, #241708 100%);
+  color:var(--ink);
+  font-size:16px;line-height:1.85;
+  overflow-x:hidden;
+}
+.kai{font-family:'Ma Shan Zheng','STKaiti','KaiTi','SimSun',serif;font-weight:400}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* ---------- 顶部导航：木质横梁+羊皮纸页签 ---------- */
+.game-nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;height:56px;
+  background:linear-gradient(180deg,#3a2410 0%,#2a1a0c 55%,#1c1005 100%);
+  border-bottom:2px solid var(--gold-dark);
+  box-shadow:0 3px 14px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,233,168,.18);
+  display:flex;align-items:center;gap:14px;padding:0 16px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer;text-decoration:none;
+}
+.nav-logo .seal-mini{
+  width:34px;height:34px;border-radius:7px;
+  background:linear-gradient(160deg,var(--seal) 0%,var(--seal-dark) 100%);
+  border:2px solid var(--gold);color:#fff;
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-size:19px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.5), inset 0 0 6px rgba(255,255,255,.22);
+  transform:rotate(-4deg);
+}
+.nav-logo b{
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-weight:400;
+  color:var(--gold-light);font-size:19px;letter-spacing:2px;
+  text-shadow:0 2px 4px rgba(0,0,0,.6);white-space:nowrap;
+}
+.nav-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;padding:4px 2px}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{
+  flex-shrink:0;text-decoration:none;cursor:pointer;
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;
+  font-size:15px;letter-spacing:1px;color:#5a3c1a;
+  background:linear-gradient(180deg,#f6ecd2 0%,#e9d8ad 100%);
+  border:1.5px solid #8a6a38;border-radius:8px;
+  padding:5px 14px;position:relative;white-space:nowrap;
+  box-shadow:0 2px 4px rgba(0,0,0,.4), inset 0 1px 0 #fff8e2;
+  transition:all .18s ease;
+}
+.nav-tab:hover{transform:translateY(-2px);color:var(--seal-dark);box-shadow:0 4px 8px rgba(0,0,0,.45), inset 0 1px 0 #fff8e2}
+.nav-tab.active{
+  background:linear-gradient(180deg,var(--gold-light) 0%,var(--gold) 60%,#d8ab48 100%);
+  color:var(--wood-deep);font-size:16px;border-color:var(--gold-dark);
+  box-shadow:0 0 10px rgba(233,194,104,.45), inset 0 1px 0 #fff6d8;
+}
+.nav-tab.active::after{
+  content:'';position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#ff7a5e,var(--seal-dark));
+  border:1.5px solid var(--gold-light);
+}
+
+/* ---------- Hero：自制宣传主视觉背景 · 左右分布（信息 × 宣传视频） ---------- */
+.hero{
+  position:relative;min-height:96vh;
+  background:url('assets/source/宣传主视觉-原图.png') center 24%/cover no-repeat fixed;
+  background:image-set(url('assets/hero-promo.webp') type('image/webp'),url('assets/source/宣传主视觉-原图.png') type('image/png')) center 24%/cover no-repeat fixed;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 20px 70px;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1.08fr .92fr;gap:52px;align-items:center;
+  width:100%;max-width:1180px;
+}
+.hero-info{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(900px 420px at 50% 30%, rgba(20,10,0,.18), rgba(20,10,0,.66) 78%),
+    linear-gradient(180deg, rgba(26,14,4,.62) 0%, rgba(26,14,4,.18) 34%, rgba(26,14,4,.30) 70%, #241708 100%);
+}
+.hero>*{position:relative;z-index:2}
+.hero-tag{
+  display:inline-block;margin-bottom:18px;
+  font-size:14px;letter-spacing:6px;color:var(--gold-light);
+  border:1px solid rgba(233,194,104,.65);border-radius:3px;
+  padding:5px 18px 5px 24px;background:rgba(20,10,0,.45);
+  text-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+.hero-title{
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-weight:400;
+  font-size:clamp(52px,9vw,96px);line-height:1.12;color:var(--gold-light);
+  letter-spacing:6px;
+  text-shadow:
+    0 0 22px rgba(255,214,120,.35),
+    0 2px 0 #7a5210, 0 4px 0 #5d3c0a, 0 7px 18px rgba(0,0,0,.75);
+}
+.hero-sub{
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-weight:400;
+  font-size:clamp(20px,3.4vw,30px);color:#f6ead0;letter-spacing:14px;
+  margin:14px 0 26px;text-shadow:0 2px 8px rgba(0,0,0,.85);
+}
+.hero-sub em{font-style:normal;color:var(--gold);font-size:.72em;letter-spacing:4px;opacity:.92}
+.hero-chips{display:flex;gap:12px;justify-content:flex-start;flex-wrap:wrap;margin-bottom:34px}
+.chip{
+  font-size:13.5px;color:#f2e6c8;background:rgba(18,10,2,.62);
+  border:1px solid rgba(233,194,104,.5);border-radius:20px;padding:6px 16px;
+  backdrop-filter:blur(2px);
+}
+.chip b{color:var(--gold-light);font-weight:600}
+/* 右侧宣传视频卡（木框金边，复刻游戏拟物UI） */
+.hero-media{display:flex;justify-content:center}
+.promo-frame{
+  width:100%;max-width:560px;margin:0;position:relative;
+  background:linear-gradient(165deg,#4b3014 0%,#2b1a08 100%);
+  border:3px solid var(--gold);border-radius:14px;padding:10px 10px 6px;
+  box-shadow:0 18px 44px rgba(0,0,0,.6), inset 0 0 22px rgba(233,194,104,.18);
+}
+.promo-frame::before{
+  content:'';position:absolute;inset:4px;border:1px solid rgba(233,194,104,.35);
+  border-radius:10px;pointer-events:none;z-index:2;
+}
+.promo-video{
+  display:block;width:100%;aspect-ratio:16/9;background:#100a04;
+  border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.5);
+}
+.promo-cap{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;color:#f2e6c8;letter-spacing:3px;padding:9px 2px 3px;
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;
+}
+.promo-cap .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--gold-light);
+  box-shadow:0 0 6px rgba(255,222,130,.9);flex-shrink:0;
+}
+/* 开始游戏样式按钮（复刻选角界面CTA） */
+.btn-game{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none;
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-size:21px;letter-spacing:5px;
+  color:#4a2c08;padding:12px 52px 13px 58px;border-radius:26px;position:relative;
+  background:linear-gradient(180deg,#ffefb0 0%,var(--gold) 46%,#c8933a 100%);
+  border:3px solid #4a2c08;
+  box-shadow:0 4px 0 #3a2208, 0 8px 18px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,255,.65);
+  transition:all .15s ease;
+}
+.btn-game::before,.btn-game::after{
+  content:'';position:absolute;top:50%;width:26px;height:14px;transform:translateY(-50%);
+  background:radial-gradient(circle at 50% 50%, rgba(255,244,200,.9), rgba(255,244,200,0) 68%);
+  pointer-events:none;
+}
+.btn-game::before{left:12px}
+.btn-game::after{right:12px}
+.btn-game:hover{filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 6px 0 #3a2208,0 12px 24px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.65)}
+.btn-game:active{transform:translateY(3px);box-shadow:0 1px 0 #3a2208,0 4px 10px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.5)}
+.hero-ver{
+  position:absolute;bottom:14px;left:20px;z-index:2;
+  font-size:12.5px;color:rgba(246,234,208,.85);letter-spacing:1px;
+  text-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+
+/* ---------- 章节骨架 ---------- */
+.zhang{padding:74px 0 12px;position:relative}
+.zhang-head{display:flex;align-items:center;gap:18px;margin-bottom:10px}
+.zhang-num{
+  width:64px;height:64px;flex-shrink:0;border-radius:12px;
+  background:linear-gradient(165deg,#4b3014 0%,#2b1a08 100%);
+  border:2.5px solid var(--gold);position:relative;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.5), inset 0 0 12px rgba(233,194,104,.25);
+}
+.zhang-num span{
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-size:32px;color:var(--gold-light);
+  text-shadow:0 0 8px rgba(255,220,130,.5);transform:translateY(1px);
+}
+.zhang-num::before,.zhang-num::after{
+  content:'';position:absolute;width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe9a8,var(--gold-dark));
+  box-shadow:0 1px 2px rgba(0,0,0,.6);
+}
+.zhang-num::before{top:-4px;left:-4px}
+.zhang-num::after{bottom:-4px;right:-4px}
+.zhang-tt h2{
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,42px);color:var(--gold-light);letter-spacing:4px;
+  text-shadow:0 2px 0 #5d3c0a,0 5px 14px rgba(0,0,0,.7);line-height:1.2;
+}
+.zhang-tt p{font-size:14.5px;color:#c9b58a;letter-spacing:3px;margin-top:2px}
+.zhang-seal{
+  margin-left:auto;flex-shrink:0;align-self:flex-start;
+  width:52px;height:52px;border-radius:9px;transform:rotate(6deg);
+  background:linear-gradient(160deg,#d6402f,var(--seal-dark));
+  border:2px solid rgba(255,220,180,.35);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-size:24px;color:#fff;
+  box-shadow:0 3px 8px rgba(0,0,0,.5), inset 0 0 8px rgba(255,255,255,.2);
+  writing-mode:vertical-rl;letter-spacing:4px;
+}
+.zhang-line{
+  height:3px;margin:14px 0 30px;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold) 0%,rgba(233,194,104,.25) 55%,transparent 100%);
+  position:relative;
+}
+.zhang-line::before{
+  content:'';position:absolute;left:0;top:-4px;width:11px;height:11px;transform:rotate(45deg);
+  background:var(--gold);box-shadow:0 0 8px rgba(233,194,104,.6);
+}
+
+/* ---------- 羊皮纸面板（四角铆钉） ---------- */
+.panel{
+  position:relative;
+  background:
+    radial-gradient(560px 200px at 12% 0%, rgba(255,255,255,.5), transparent 55%),
+    linear-gradient(160deg,var(--paper-light) 0%,var(--paper) 58%,var(--paper-dark) 100%);
+  border:2px solid #7a5a2c;border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.45), inset 0 0 0 1.5px rgba(255,248,224,.6), inset 0 0 40px rgba(160,120,50,.14);
+  padding:26px 28px;margin-bottom:26px;
+  transition:box-shadow .25s ease;
+}
+.panel:hover{box-shadow:0 8px 26px rgba(0,0,0,.5), 0 0 16px rgba(233,194,104,.28), inset 0 0 0 1.5px rgba(255,248,224,.6), inset 0 0 40px rgba(160,120,50,.14)}
+.panel::before,.panel::after{
+  content:'';position:absolute;width:8px;height:8px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe9a8,#a87f2e);
+  box-shadow:0 1px 2px rgba(0,0,0,.5);
+}
+.panel::before{top:8px;left:8px;box-shadow:0 0 0 0 transparent}
+.panel::after{bottom:8px;right:8px}
+.panel .rv2{position:absolute;top:8px;right:8px}
+.panel .rv3{position:absolute;bottom:8px;left:8px}
+.rivet{position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,#a87f2e);box-shadow:0 1px 2px rgba(0,0,0,.5)}
+.panel-h{
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1.5px dashed rgba(122,90,44,.45);
+}
+.panel-h .p-icon{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(165deg,#5d3d1e,#33200c);
+  border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:16px;box-shadow:inset 0 0 6px rgba(233,194,104,.3);
+}
+.p-icon svg{width:19px;height:19px;display:block;color:var(--gold-light);filter:drop-shadow(0 0 3px rgba(233,194,104,.4))}
+.panel.night .p-icon svg{color:#8ce8a4;filter:drop-shadow(0 0 3px rgba(111,224,138,.45))}
+.panel-h h3{
+  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-weight:400;
+  font-size:24px;color:#4a2c08;letter-spacing:3px;
+}
+.panel-h .p-sub{margin-left:auto;font-size:13px;color:#8a6a38;letter-spacing:1px}
+
+/* ---------- 标签体系 ---------- */
+.tags{display:inline-flex;gap:6px;vertical-align:2px;margin-left:8px}
+.tag{
+  display:inline-block;font-size:11.5px;line-height:1;padding:4px 9px 5px;border-radius:4px;
+  letter-spacing:1px;color:#fff;font-family:'Microsoft YaHei',sans-serif;
+  box-shadow:0 1px 3px rgba(0,0,0,.3);position:relative;top:-2px;
+}
+.tag-shi{background:linear-gradient(160deg,#d8a63c,#a87a1e)}        /* 实机 */
+.tag-gong{background:linear-gradient(160deg,#3a9184,#22655b)}       /* 公告 */
+.tag-tui{background:linear-gradient(160deg,#8a6cc9,#5b4387)}        /* 推测 */
+.tag-pan{background:linear-gradient(160deg,#d6402f,#8f2117)}        /* 判断 */
+
+/* ---------- 正文要素 ---------- */
+.panel p{margin-bottom:12px;color:#43301a}
+.panel p:last-child{margin-bottom:0}
+.hl{color:var(--seal-dark);font-weight:600}
+.gld{color:#8a6210;font-weight:600}
+ul.dots{list-style:none;margin:4px 0 12px}
+ul.dots li{position:relative;padding:5px 0 5px 24px;color:#43301a}
+ul.dots li::before{
+  content:'';position:absolute;left:6px;top:16px;width:8px;height:8px;transform:rotate(45deg);
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  box-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+.kbd{
+  display:inline-block;font-family:Consolas,monospace;font-size:12.5px;color:#f4e9cc;
+  background:linear-gradient(180deg,#4b3218,#2e1d0c);border:1px solid #7a5a2c;border-radius:5px;
+  padding:1px 8px 2px;margin:0 2px;box-shadow:0 2px 0 rgba(0,0,0,.4);
+}
+
+/* ---------- 截图相框（暗色游戏面板框） ---------- */
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0 8px}
+.shots.one{grid-template-columns:1fr}
+.shot{
+  background:linear-gradient(165deg,#2c2013 0%,#191007 100%);
+  border:2px solid #6d5228;border-radius:10px;padding:8px;position:relative;
+  box-shadow:0 5px 14px rgba(0,0,0,.5), inset 0 0 0 1.5px rgba(233,194,104,.28);
+  transition:transform .2s ease, box-shadow .2s ease;cursor:zoom-in;
+}
+.shot:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.6), 0 0 18px rgba(233,194,104,.4), inset 0 0 0 1.5px rgba(233,194,104,.45)}
+.shot img{width:100%;display:block;border-radius:6px;aspect-ratio:1024/516;object-fit:cover;background:#0d0904}
+.shot figcaption{
+  display:flex;align-items:center;gap:8px;padding:9px 6px 3px;
+  font-size:13.5px;color:#e8d7ae;letter-spacing:.5px;
+}
+.shot figcaption .no{
+  font-family:'Ma Shan Zheng','STKaiti',serif;font-size:13px;color:var(--gold);
+  border:1px solid rgba(233,194,104,.55);border-radius:4px;padding:1px 7px;flex-shrink:0;
+}
+
+/* ---------- 数据表 ---------- */
+.tbl{width:100%;border-collapse:collapse;margin:10px 0 6px;font-size:14.5px}
+.tbl th{
+  font-family:'Ma Shan Zheng','STKaiti',serif;font-weight:400;letter-spacing:2px;font-size:16px;
+  color:#ffe9a8;background:linear-gradient(180deg,#5d3d1e,#3a2410);
+  border:1px solid #7a5a2c;padding:8px 10px;
+}
+.tbl td{
+  border:1px solid #c9b183;padding:8px 10px;color:#43301a;
+  background:linear-gradient(180deg,rgba(255,250,235,.55),rgba(240,228,195,.55));
+}
+.tbl tr:nth-child(even) td{background:linear-gradient(180deg,rgba(244,232,205,.72),rgba(233,218,182,.72))}
+.tbl td b{color:var(--seal-dark)}
+
+/* ---------- 核心循环图 ---------- */
+.loop{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;justify-content:center;margin:14px 0 6px}
+.loop-node{
+  flex:1;min-width:128px;max-width:190px;text-align:center;position:relative;
+  background:linear-gradient(165deg,#5d3d1e,#33200c);
+  border:2px solid var(--gold);border-radius:12px;padding:14px 10px 12px;margin:14px 16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.4), inset 0 0 10px rgba(233,194,104,.2);
+  transition:transform .18s ease;
+}
+.loop-node:hover{transform:translateY(-4px) scale(1.03)}
+.loop-node .ln-t{
+  font-family:'Ma Shan Zheng','STKaiti',serif;font-size:21px;color:var(--gold-light);
+  letter-spacing:3px;display:block;
+}
+.loop-node .ln-d{font-size:12px;color:#d9c69a;margin-top:4px;line-height:1.5;display:block}
+.loop-node::after{
+  content:'➤';position:absolute;right:-21px;top:50%;transform:translateY(-50%);
+  color:var(--gold);font-size:17px;text-shadow:0 0 6px rgba(233,194,104,.7);
+}
+.loop-node:last-child::after{display:none}
+
+/* ---------- 时间线 ---------- */
+.tline{position:relative;margin:10px 0 6px;padding-left:30px}
+.tline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--gold),#8a6a38)}
+.tl-item{position:relative;margin-bottom:16px}
+.tl-item::before{
+  content:'';position:absolute;left:-28px;top:9px;width:13px;height:13px;transform:rotate(45deg);
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
+  border:2px solid #6d5228;box-shadow:0 0 6px rgba(233,194,104,.55);
+}
+.tl-item .tl-date{font-family:'Ma Shan Zheng','STKaiti',serif;font-size:18px;color:#7a5210;letter-spacing:1px}
+.tl-item .tl-body{font-size:14.5px;color:#43301a}
+
+/* ---------- 引用/批注 ---------- */
+.note{
+  border-left:4px solid var(--seal);background:linear-gradient(90deg,rgba(192,52,40,.09),transparent 70%);
+  padding:10px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:15px;color:#4a2c08;
+}
+.note b{color:var(--seal-dark)}
+.quote{
+  border-left:4px solid var(--teal-tag);background:linear-gradient(90deg,rgba(47,122,110,.10),transparent 70%);
+  padding:10px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:14.5px;color:#2e4a3a;
+}
+
+/* ---------- 深挖章节夜色面板 ---------- */
+.panel.night{
+  background:
+    radial-gradient(560px 220px at 15% 0%, rgba(111,224,138,.08), transparent 55%),
+    linear-gradient(165deg,var(--night-2) 0%,var(--night) 70%,#0d161d 100%);
+  border-color:#3d5a52;
+}
+.panel.night p, .panel.night ul.dots li{color:#cfe2d4}
+.panel.night .panel-h h3{color:var(--gold-light)}
+.panel.night .panel-h .p-sub{color:#8fb5a4}
+.panel.night .panel-h{border-bottom-color:rgba(111,224,138,.3)}
+.panel.night ul.dots li::before{background:linear-gradient(135deg,var(--ghost),#2f8a52)}
+.panel.night .hl{color:#ffb26b}
+.panel.night .gld{color:var(--gold-light)}
+.panel.night .tbl td{color:#d8e8dc;background:linear-gradient(180deg,rgba(29,47,61,.9),rgba(20,31,40,.9));border-color:#3d5a52}
+.panel.night .tbl tr:nth-child(even) td{background:linear-gradient(180deg,rgba(24,38,49,.95),rgba(17,26,34,.95))}
+.panel.night .note{color:#e8d7ae;background:linear-gradient(90deg,rgba(214,64,47,.18),transparent 70%)}
+.panel.night .kbd{background:linear-gradient(180deg,#31465a,#1b2836);border-color:#3d5a52}
+
+/* ---------- 雷达图区 ---------- */
+.radar-box{display:flex;gap:26px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.radar-box svg{flex-shrink:0}
+.radar-legend{flex:1;min-width:220px}
+.radar-legend .lg{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:14.5px;color:#43301a}
+.radar-legend .sw{width:22px;height:12px;border-radius:3px;flex-shrink:0}
+
+/* ---------- 页脚 & 返回顶部 ---------- */
+.footer{
+  margin-top:70px;padding:44px 20px 60px;text-align:center;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));
+  border-top:2px solid rgba(233,194,104,.35);
+}
+.footer .f-seal{
+  width:64px;height:64px;margin:0 auto 16px;border-radius:12px;transform:rotate(-5deg);
+  background:linear-gradient(160deg,#d6402f,var(--seal-dark));
+  border:2.5px solid rgba(255,220,180,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Ma Shan Zheng',serif;font-size:21px;color:#fff;writing-mode:vertical-rl;letter-spacing:3px;
+  box-shadow:0 4px 12px rgba(0,0,0,.5);
+}
+.footer p{color:#c9b58a;font-size:13.5px;letter-spacing:2px;line-height:2}
+.to-top{
+  position:fixed;right:22px;bottom:26px;z-index:950;width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(180deg,#ffefb0,var(--gold) 55%,#c8933a);
+  border:3px solid #4a2c08;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 #3a2208,0 8px 16px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.6);
+  opacity:0;pointer-events:none;transition:all .25s ease;font-size:20px;color:#4a2c08;
+  text-decoration:none;
+}
+.to-top.show{opacity:1;pointer-events:auto}
+.to-top:hover{transform:translateY(-3px)}
+.to-top:active{transform:translateY(2px)}
+
+/* ---------- 灯箱 ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:999;background:rgba(10,6,2,.92);
+  display:none;align-items:center;justify-content:center;padding:30px;cursor:zoom-out;
+  backdrop-filter:blur(3px);
+}
+.lightbox.open{display:flex}
+.lightbox img{max-width:96vw;max-height:88vh;border:3px solid var(--gold);border-radius:10px;box-shadow:0 0 40px rgba(233,194,104,.35)}
+.lightbox .lb-cap{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  color:var(--gold-light);font-size:15px;letter-spacing:2px;text-shadow:0 2px 6px #000;white-space:nowrap;
+}
+
+/* ---------- 入场动画 ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:980px){
+  .hero-inner{grid-template-columns:1fr;gap:38px;justify-items:center}
+  .hero-info{align-items:center;text-align:center}
+  .hero-chips{justify-content:center}
+  .hero-media{width:100%}
+  .promo-frame{max-width:620px}
+}
+@media (max-width:860px){
+  .shots{grid-template-columns:1fr}
+  .panel{padding:20px 16px}
+  .zhang-seal{display:none}
+  .hero{background-attachment:scroll;padding:104px 16px 60px}
+  .btn-game{padding:10px 34px 11px 40px;font-size:18px}
+  .loop-node{margin:14px 10px}
+  .loop-node::after{display:none}
+  .promo-frame{padding:8px 8px 5px;border-radius:12px}
+  .promo-cap{letter-spacing:2px;font-size:12.5px}
+}
+@media print{.game-nav,.to-top,.lightbox{display:none}}
+</style>
+</head>
+<body>
+<!-- ============ 国风鎏金线性图标库（24px 网格 · 1.7 描边 · currentColor） ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-compass" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M15.3 8.7 13 13l-4.3 2.3L11 11z"/></g></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.1"/><path d="M5.8 20c.7-3.9 3-5.9 6.2-5.9s5.5 2 6.2 5.9"/></g></symbol>
+<symbol id="ic-loop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18.9 8.5A7.3 7.3 0 0 0 5.6 8"/><path d="M5.5 4v4h4"/><path d="M5.1 15.5a7 7 0 0 0 13.3.5"/><path d="M18.5 20v-4h-4"/></g></symbol>
+<symbol id="ic-gamepad" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7.5h8c2.9 0 5.2 2.4 5.2 5.3 0 2.5-1.3 4.5-2.9 4.5-1.1 0-1.8-.9-2.4-1.8-.6-.8-1.1-1.4-2.2-1.4h-3.4c-1.1 0-1.6.6-2.2 1.4-.6.9-1.3 1.8-2.4 1.8-1.6 0-2.9-2-2.9-4.5C2.8 9.9 5.1 7.5 8 7.5z"/><path d="M8.3 10.6v3M6.8 12.1h3"/><path d="M16 10.9h.01M18.2 12.7h.01"/></g></symbol>
+<symbol id="ic-unlock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="10.8" width="13" height="8.7" rx="1.8"/><path d="M8.5 10.8V7.3a3.6 3.6 0 0 1 7-1.2"/><path d="M12 14.6v2.2"/></g></symbol>
+<symbol id="ic-sword" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1.7 2.4 2.6 4.9 2.6 7.9L12 13.4l-2.6-2.5c0-3 .9-5.5 2.6-7.9z"/><path d="M12 6.2v6.4"/><path d="M8 15.4h8"/><path d="M12 15.4v4.4"/></g></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l7.2 2.6v5.6c0 4.6-3 7.7-7.2 9.4-4.2-1.7-7.2-4.8-7.2-9.4V5.8z"/><path d="M12 7.2l3.6 1.3v2.9c0 2.3-1.4 3.8-3.6 4.7-2.2-.9-3.6-2.4-3.6-4.7V8.5z"/></g></symbol>
+<symbol id="ic-skillring" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.3"/><circle cx="12" cy="12" r="8.3"/><path d="M12 3.7v6M12 14.3v6M3.7 12h6M14.3 12h6M6.1 6.1l4.2 4.2M13.7 13.7l4.2 4.2M17.9 6.1l-4.2 4.2M10.3 13.7l-4.2 4.2"/></g></symbol>
+<symbol id="ic-tri" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2L19.3 17H4.7z"/><path d="M12 4.2v8.5M19.3 17l-7.3-4.3M4.7 17l7.3-4.3"/><circle cx="12" cy="12.7" r=".9"/></g></symbol>
+<symbol id="ic-map" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 6.6l5.1-2.1 5.4 2.1 5.1-2.1v12.9l-5.1 2.1-5.4-2.1-5.1 2.1z"/><path d="M9.3 4.5v12.9M14.7 6.6v12.9"/></g></symbol>
+<symbol id="ic-terrain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19h18"/><path d="M5.5 19l4.3-8.2 2.9 5.2 2-3.4 3.3 6.4"/><path d="M4.5 9.5h5M15.5 5h4"/></g></symbol>
+<symbol id="ic-key" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.8" cy="7.8" r="4"/><path d="M10.6 10.6L20 20"/><path d="M14.8 14.8l2.3-2.3M17.6 17.6l2.3-2.3"/></g></symbol>
+<symbol id="ic-grid9" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h.01M12 6h.01M18 6h.01M6 12h.01M12 12h.01M18 12h.01M6 18h.01M12 18h.01M18 18h.01"/></g></symbol>
+<symbol id="ic-gem" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4.5h8l3.6 5L12 19.8 4.4 9.5z"/><path d="M4.4 9.5h15.2"/><path d="M8 4.5l1.6 5L12 19.8M16 4.5l-1.6 5L12 19.8"/></g></symbol>
+<symbol id="ic-card" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M12 8l1.2 3.1 3.1.9-3.1.9L12 16l-1.2-3.1-3.1-.9 3.1-.9z"/></g></symbol>
+<symbol id="ic-paw" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.8" cy="6.8" r="1.7"/><circle cx="15.2" cy="6.8" r="1.7"/><circle cx="5.6" cy="11.2" r="1.5"/><circle cx="18.4" cy="11.2" r="1.5"/><path d="M12 11.2c2.9 0 5.2 2.3 5.2 4.8 0 1.7-1.2 2.6-2.6 2.6-1 0-1.8-.5-2.6-.5s-1.6.5-2.6.5c-1.4 0-2.6-.9-2.6-2.6 0-2.5 2.3-4.8 5.2-4.8z"/></g></symbol>
+<symbol id="ic-frame" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="15" rx="1.5"/><path d="M6.5 15.5l3.8-4.8 2.6 3.1 1.9-2.3 2.7 4"/><circle cx="15.3" cy="8.7" r="1.2"/></g></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.8 20h16.4"/><path d="M4.5 15.8l4.4-4.6 3 3 6.4-6.9"/><path d="M14.2 7.3h4.1v4.1"/></g></symbol>
+<symbol id="ic-stairs" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 20V4.8"/><path d="M4.5 20h15"/><path d="M7 20v-3.6h3.8v-3.6h3.8V9.2h3.8V5.6"/></g></symbol>
+<symbol id="ic-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="4.4"/><path d="M12 12h.01"/></g></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.3" r="2.9"/><path d="M3.8 19.3c.6-3.4 2.6-5.2 5.2-5.2 2.6 0 4.6 1.8 5.2 5.2"/><circle cx="16.8" cy="9.4" r="2.3"/><path d="M16 13.8c2.3.4 3.8 1.9 4.3 4.4"/></g></symbol>
+<symbol id="ic-trophy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4.5h8v4.8a4 4 0 0 1-8 0z"/><path d="M8 6.2H4.6c.1 2.9 1.6 4.4 3.6 4.6M16 6.2h3.4c-.1 2.9-1.6 4.4-3.6 4.6"/><path d="M12 13.3v2.9"/><path d="M9 20.5c0-2.4 1.2-3.8 3-3.8s3 1.4 3 3.8"/><path d="M7 20.5h10"/></g></symbol>
+<symbol id="ic-coin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.3"/><rect x="9.7" y="9.7" width="4.6" height="4.6"/></g></symbol>
+<symbol id="ic-hongbao" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="16" rx="1.8"/><path d="M5 7.2c2.4 2.7 4.4 3.9 7 3.9s4.6-1.2 7-3.9"/><circle cx="12" cy="14" r="1.9"/></g></symbol>
+<symbol id="ic-bubble" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7c0-1.1.9-2 2-2h11c1.1 0 2 .9 2 2v6.6c0 1.1-.9 2-2 2h-6.6l-3.7 3.4v-3.4H6.5c-1.1 0-2-.9-2-2z"/><path d="M8.7 10.6h.01M12 10.6h.01M15.3 10.6h.01"/></g></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.3" width="16" height="15" rx="1.8"/><path d="M4 10.1h16M8.4 3.4v3.7M15.6 3.4v3.7"/><path d="M8 14.2h.01M12 14.2h.01M16 14.2h.01M8 17.2h.01M12 17.2h.01"/></g></symbol>
+<symbol id="ic-magnet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 4.5v6.9a5.7 5.7 0 0 0 11.4 0V4.5"/><path d="M6.3 4.5h3.4v4.2H6.3zM14.3 4.5h3.4v4.2h-3.4z"/></g></symbol>
+<symbol id="ic-brush" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19.3 4.7c-2.8.7-6.9 3.3-8.8 6.3l2.5 2.5c3-1.9 5.6-6 6.3-8.8z"/><path d="M10.5 11c-2.1.2-3.5 1.5-3.9 4.2-.2 1.6-1 2.5-2.6 3.2 1.7 1 4.3 1 5.9-.6 1.1-1.1 1.5-2.4 1.2-3.5"/></g></symbol>
+<symbol id="ic-sliders" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.3h15M4.5 12h15M4.5 16.7h15"/><circle cx="9.8" cy="7.3" r="1.8"/><circle cx="14.8" cy="12" r="1.8"/><circle cx="7.8" cy="16.7" r="1.8"/></g></symbol>
+<symbol id="ic-sealcheck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="15" rx="2.6"/><path d="M8.4 12.3l2.7 2.7 4.9-5.6"/></g></symbol>
+<symbol id="ic-warning" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2L21 19.6H3z"/><path d="M12 10.2v4.2M12 17v.01"/></g></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 4.2h9l3.6 3.6v12H6.2z"/><path d="M15.2 4.2v3.6h3.6"/><path d="M9 11.5h6M9 15h6"/></g></symbol>
+<symbol id="ic-stamp" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2a2.4 2.4 0 0 0-2.4 2.4c0 1.9 1.4 2.8 1.4 4.5v1.4h2v-1.4c0-1.7 1.4-2.6 1.4-4.5A2.4 2.4 0 0 0 12 3.2z"/><path d="M8.6 13.5h6.8l1.7 3.6H6.9z"/><path d="M5.3 20.4h13.4"/></g></symbol>
+</defs></svg>
+
+<!-- ================= 导航 ================= -->
+<nav class="game-nav">
+  <a class="nav-logo" href="#top">
+    <span class="seal-mini kai">拆</span><b>造梦西游6 · 策划拆解案</b>
+  </a>
+  <div class="nav-tabs">
+    <a class="nav-tab" href="#zsum">速览</a>
+    <a class="nav-tab" href="#z0">框架</a>
+    <a class="nav-tab" href="#z1">概览</a>
+    <a class="nav-tab" href="#z2">核心循环</a>
+    <a class="nav-tab" href="#z3">战斗系统</a>
+    <a class="nav-tab" href="#z4">关卡设计</a>
+    <a class="nav-tab" href="#z5">养成矩阵</a>
+    <a class="nav-tab" href="#z6">数值模型</a>
+    <a class="nav-tab" href="#z7">社交玩法</a>
+    <a class="nav-tab" href="#z8">商业化</a>
+    <a class="nav-tab" href="#z9">运营留存</a>
+    <a class="nav-tab" href="#z10">UI美术</a>
+    <a class="nav-tab" href="#z11">优劣评析</a>
+    <a class="nav-tab" href="#z12">改进提案</a>
+    <a class="nav-tab" href="#z13">结语</a>
+  </div>
+</nav>
+
+<!-- ================= HERO：左右分布（信息 × 宣传视频） ================= -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-info">
+      <div class="hero-tag kai">系统策划拆解 · 4399面试作品</div>
+      <h1 class="hero-title kai">造梦西游6</h1>
+      <div class="hero-sub kai">黎尤浩劫篇 <em>· 敦煌异境风云乍起 ·</em></div>
+      <div class="hero-chips">
+        <span class="chip"><b>信源</b> 37张实机截图 + 官方更新公告</span>
+        <span class="chip"><b>版本</b> 1.0.9a · 等级上限60</span>
+        <span class="chip"><b>视角</b> 个人策划向拆解 · 含主观判断</span>
+      </div>
+      <a class="btn-game kai" href="#zsum">开始阅读</a>
+    </div>
+    <div class="hero-media">
+      <figure class="promo-frame">
+        <video id="promoVideo" class="promo-video" controls muted loop playsinline preload="none"
+               src="assets/promo-video.mp4" poster="assets/promo-poster.webp"
+               aria-label="造梦西游6 自制宣传视频（29秒，默认静音循环播放，可点击视频取消静音）">
+          您的浏览器不支持 HTML5 视频，
+          <a href="assets/promo-video.mp4" download>请点此下载宣传视频（MP4）</a>。
+        </video>
+        <figcaption class="promo-cap"><span class="dot" aria-hidden="true"></span>自制宣传视频 · 最终版 · 29″<span class="dot" aria-hidden="true"></span></figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="hero-ver">版本号1.0.9a ｜ 4399 造梦工作室 ｜ 拆解案 v2 · 游戏化视觉</div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= 00 摘要速览 ================= -->
+<section class="zhang" id="zsum">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">序</span></div>
+    <div class="zhang-tt">
+      <h2>摘要速览</h2>
+      <p>EXECUTIVE SUMMARY · 三分钟看完全文结论</p>
+    </div>
+    <div class="zhang-seal kai">速览</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-compass"/></svg></div><h3>核心发现 TOP 5</h3><span class="p-sub">浓缩自全文 · 详见对应章节</span></div>
+    <ul class="dots">
+      <li><b>① 战斗最优设计 = 连击护盾三件套</b>：连击计数 → Boss 开盾 → ×5 架势条可视化，一个状态机+一条 UI 同时解决无限连、输出节奏、操作深度三题（3.2 节）。</li>
+      <li><b>② 养成广度被做成了引导优势</b>：九线并行 + "我要变强"聚合面板，玩家看到的引导顺序就是设计者心里的养成权重（5.1 / 6.1 节）。</li>
+      <li><b>③ 商业化系统成熟，但与情怀用户错配</b>：每日¥6 + 多期战令砸在低付费能力的 IP 用户上，小米 2.7 分的口碑反噬由此而来（8.2 / 11.2 节）。</li>
+      <li><b>④ 难度曲线失衡【实测】</b>：自第二张地图起 Boss 数值过陡，击穿"低门槛保底下沉用户"的新手定位——本文在第 12 章给出了具体调整方案（11.2 / 12 章提案）。</li>
+      <li><b>⑤ 周更大小版本交替兑现长线承诺</b>：7 周投放 1 付费系统 + 3 地图 + 2 玩法，小团队产能执行到位（9.1 节）。</li>
+    </ul>
+    <div class="note"><b>一句话总评：</b>这是一款<b>系统设计成熟度显著高于口碑表现</b>的产品——问题不在"会不会做"，在"为谁而做"。横版 ARPG 老品类的胜负手已从操作手感转向养成广度管理与内容产能节奏。</div>
+    <p style="margin-top:14px">全文共 13 章：概念定位（1）→ 玩法循环（2）→ 三条深挖线（3 战斗 / 4 关卡 / 5 养成）→ 数值（6）→ 社交（7）→ 商业化（8）→ 运营（9）→ 视觉（10）→ 评析（11）→ 改进提案（12）→ 结语（13）。标注体系：【实机】截图可证 ｜【公告】官方口径 ｜【推测】逻辑推演 ｜【判断】笔者观点。</p>
+  </div>
+</section>
+
+<!-- ================= 00 拆解框架 ================= -->
+<section class="zhang" id="z0">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">零</span></div>
+    <div class="zhang-tt">
+      <h2>拆解框架</h2>
+      <p>FRAMEWORK · 先亮结论清单，再进正文验证</p>
+    </div>
+    <div class="zhang-seal kai">框架</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-list"/></svg></div><h3>0.1 可复用模式速查表</h3><span class="p-sub">搬运清单 · 均已在文中展开</span></div>
+    <table class="tbl">
+      <tr><th style="width:34%">模式</th><th>一句话要点</th><th style="width:16%">出处</th></tr>
+      <tr><td><b>连击护盾三件套</b></td><td>连击触发Boss护盾+架势条可视化，防无限连、造节奏</td><td>3.2节</td></tr>
+      <tr><td><b>关卡解锁节奏表</b></td><td>每两三关解锁一个新系统，前三小时获得感拉满</td><td>2.3节</td></tr>
+      <tr><td><b>养成回收闭环</b></td><td>旧装备/旧宠物装备永远有出口，防废档挫败</td><td>5.2/5.4节</td></tr>
+      <tr><td><b>变强聚合面板</b></td><td>多线养成的官方导航，把广度从负担变优势</td><td>6.1节</td></tr>
+      <tr><td><b>保底透明化</b></td><td>剩余保底次数写在卡池首屏，买信任</td><td>5.3节</td></tr>
+      <tr><td><b>周更大小交替</b></td><td>新系统周与活动周交替，产能可视化稳定预期</td><td>9.1节</td></tr>
+      <tr><td><b>异步社交兜底</b></td><td>异步PVP+战报回放+机器人匹配，不赌在线密度</td><td>7.2节</td></tr>
+      <tr><td><b>双色板主题化</b></td><td>UI骨架恒定，换章节=换色板</td><td>10.1节</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= 01 产品概览 ================= -->
+<section class="zhang" id="z1">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">壹</span></div>
+    <div class="zhang-tt">
+      <h2>产品概览</h2>
+      <p>PRODUCT OVERVIEW · 系列第六作的基本盘</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-compass"/></svg></div><h3>1.1 产品定位与系列沿革</h3><span class="p-sub">信源：官网 / 平台页</span></div>
+    <p>《造梦西游之黎尤浩劫篇》是 4399 造梦工作室的<span class="gld">系列第六作</span>，2026 年上半年上线，当前版本 <span class="gld">1.0.9a</span>（截图版本号）。系列脉络清晰：页游时代的造梦西游 1~5 部曲 → 手游《造梦西游OL》→ 双端作品《造梦无双》→ 如今的《造梦6》。官方定位一句话：<b>2D 横版国风动作（ARPG）+ 多线养成手游</b>，主打"敦煌异境"新题材。</p>
+    <p>拿它和系列前作放在一起看，笔者认为《造梦6》不能算《造梦无双》的换皮，更像是把页游的老底子认认真真重做了一遍手游：木质拟物 UI、书法字体、朱印标签这些视觉资产原样继承，OL 时代那条朴素的装备/宠物线，则被扩成了九线并行的养成矩阵（第五章细说）。</p>
+    <div class="shots">
+      <figure class="shot" data-cap="图01 · 登录界面：地府场景+鬼火元素，右下角12+适龄提示">
+        <img src="images/登陆界面.png" alt="登录界面" loading="lazy">
+        <figcaption><span class="no">图01</span>登录界面 · 地府主题的"拯救三界"叙事入口</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图02 · 角色选取界面：暖金云纹+木质框架，右侧六维雷达图">
+        <img src="images/角色选取界面.png" alt="角色选取界面" loading="lazy">
+        <figcaption><span class="no">图02</span>角色选取 · 悟空/唐三藏/牛魔王三选一，六维雷达图直观展示定位</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-user"/></svg></div><h3>1.2 角色与目标用户</h3><span class="p-sub">信源：实机 / 攻略站</span></div>
+    <ul class="dots">
+      <li><b>初始三角色</b>：孙悟空（高爆发近战，位移灵活）、唐三藏（远程法系，站桩稳定）、牛魔王（防御坦克）——牛魔王需 <span class="hl">6 元解锁</span>，或通过"魔焰滔天"赛季免费获取。单账号最多创建 5 名角色。<span class="tags"><span class="tag tag-shi">实机</span><span class="tag tag-gong">公告</span></span></li>
+      <li><b>目标用户画像</b>【判断】：① 造梦 IP 页游世代的情怀用户（90/00 后）；② 横版动作爱好者；③ 西游题材泛用户。三人组的经典配置明显在照顾低龄与下沉市场——新手推荐唐三藏（容错率高），说明官方预期大量"操作不精"的用户。</li>
+      <li><b>商业模式</b>：F2P + 内购（元宝/点券/礼包/月卡/战令/抽卡）。战斗截图均为键鼠键位布局（<span class="kbd">U</span><span class="kbd">I</span><span class="kbd">O</span><span class="kbd">L</span><span class="kbd">H</span> 技能 + <span class="kbd">空格</span> 无双，客户端水印 1.0.9a），PC 端与移动端均可游玩【推测，依据实机键位】。</li>
+      <li><b>市场口碑现状</b>：TapTap 约 12 万关注，小米平台评分 <span class="hl">2.7 / 5</span>（18 人评价）；社区高频负面词是"骗氪""爆率低"。这组数据后面商业化章节展开。</li>
+    </ul>
+    <div class="note"><b>本章小结：</b>说白了就是"老 IP 走新养成模型"——IP 老用户冲着情怀来，敦煌题材负责新鲜感，三角色+低门槛动作兜住那批操作不精的下沉用户。这套打法在业内并不新鲜，但造梦系列的底子撑得起它。</div>
+  </div>
+</section>
+
+<!-- ================= 02 核心循环 ================= -->
+<section class="zhang" id="z2">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">贰</span></div>
+    <div class="zhang-tt">
+      <h2>核心玩法循环</h2>
+      <p>CORE LOOP · 闯关—掉落—养成—变强的飞轮</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-loop"/></svg></div><h3>2.1 宏观循环：一条飞轮九条养成</h3><span class="p-sub">综合推断</span></div>
+    <div class="loop">
+      <div class="loop-node"><span class="ln-t">主线闯关</span><span class="ln-d">推图解锁系统<br>获取首掉落</span></div>
+      <div class="loop-node"><span class="ln-t">掉落产出</span><span class="ln-d">装备 / 材料<br>魂币 / 器灵</span></div>
+      <div class="loop-node"><span class="ln-t">多线养成</span><span class="ln-d">九大系统并行<br>消耗资源</span></div>
+      <div class="loop-node"><span class="ln-t">战力提升</span><span class="ln-d">单一战力值<br>量化成长</span></div>
+      <div class="loop-node"><span class="ln-t">新关卡</span><span class="ln-d">卡点突破<br>开启下一环</span></div>
+    </div>
+    <p>这是最经典的"关卡解锁系统"模型：<span class="gld">主线关卡是唯一主轴</span>，九条养成线全部挂在关卡进度上解锁。官方还把它做成了聚合面板——"我要变强"指引（图10，见第六章），9 条变强路径一次性摆给你看。笔者认为这套设计的实质，是用系统解锁节奏去顶替内容消耗速度：前 12 关平均每两三关就有一个新钩子，前三小时的获得感拉得极满。</p>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-gamepad"/></svg></div><h3>2.2 单局流程：从选关到结算</h3><span class="p-sub">信源：实机截图串联</span></div>
+    <ul class="dots">
+      <li><b>选关</b>：世界地图分区页签（人间 / 地府 / 梦墟）→ 关卡信息简介（图04：关卡背景、推荐战斗力 105600、推荐等级 57、产出奖励、"通关后修心效率提升至480心得/小时"，右侧附 Boss 战力预览与出战宠物选择）。</li>
+      <li><b>进图</b>：横版走图刷怪，地形带竖向分层与隐藏分支（图06/07，详见第四章）。</li>
+      <li><b>Boss 战</b>：关卡内剧情交互（图08：NPC 对话推进"残魂"主线）→ Boss 战（护盾/连击机制，图13）→ 高潮定格演出（图14：巨幅书法"破"字）。</li>
+      <li><b>结算</b>：胜利结算（图11：无星级评定，展示副本耗时 08:40 与获得奖励，提供"再次挑战(J) / 返回地图(K)"快捷键）；战败则弹限时抉择（图12："复活(F) / 放弃"，复活消耗复活币或元宝）——<span class="hl">战败时刻的即时付费钩子</span>。</li>
+      <li><b>组队变体</b>：双人组队关卡（图15）走同一流程，血条栏并列显示两名玩家。</li>
+    </ul>
+    <div class="shots">
+      <figure class="shot" data-cap="图04 · 关卡信息简介：推荐战斗力105600/推荐等级57/产出奖励/修心效率提升+Boss战力预览">
+        <img src="images/关卡信息简介.png" alt="关卡信息简介" loading="lazy">
+        <figcaption><span class="no">图04</span>关卡信息简介 · 战力门槛+产出+修心收益的前置决策面板</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图11 · 胜利结算：副本耗时08:40+获得奖励+再次挑战(J)/返回地图(K)">
+        <img src="images/胜利结算画面.png" alt="胜利结算画面" loading="lazy">
+        <figcaption><span class="no">图11</span>胜利结算 · 耗时与奖励清单，快捷键衔接下一轮</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图12 · 战败限时抉择：复活(F)/放弃，复活消耗复活币或元宝（双玩家均已阵亡）">
+        <img src="images/战败复活选择.png" alt="战败复活选择" loading="lazy">
+        <figcaption><span class="no">图12</span>战败复活选择 · 失败时刻的付费钩子</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图09 · 世界地图「地府」页：黄泉路、忘川河等节点">
+        <img src="images/地图二全貌.png" alt="地图二全貌" loading="lazy">
+        <figcaption><span class="no">图09</span>地府页地图 · 幽冥节点与主城入口</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-unlock"/></svg></div><h3>2.3 系统解锁节奏表</h3><span class="p-sub">信源：新手开荒攻略 + 公告</span></div>
+    <table class="tbl">
+      <tr><th style="width:18%">主线进度</th><th>解锁系统</th><th style="width:34%">设计意图【判断】</th></tr>
+      <tr><td><b>第 1 关</b></td><td>修心系统（挂机产出"心得"）</td><td>第一晚就埋挂机收益钩子</td></tr>
+      <tr><td><b>第 2 关</b></td><td>战令、神兽森林、七日签到/任务、在线奖励</td><td>留存四件套一次性打开</td></tr>
+      <tr><td><b>第 3 关</b></td><td>法宝（闲置装备合成）、悬赏（每日3次）</td><td>装备回收出口 + 日常任务闭环</td></tr>
+      <tr><td><b>第 5 关</b></td><td>联盟（战勋商店）</td><td>社交绑定前置</td></tr>
+      <tr><td><b>第 6 关</b></td><td>装备强化（+12）、材料本"葛芦之山"（每日2次）</td><td>第一条硬养成线落地</td></tr>
+      <tr><td><b>第 9 关</b></td><td>长安演武（异步PVP）、宝石镶嵌</td><td>战力验证场 + 新养成线</td></tr>
+      <tr><td><b>第 10 关</b></td><td>灵鸟孵宠（3v3 夺蛋竞技）</td><td>PVP 差异化玩法</td></tr>
+      <tr><td><b>第 12 关</b></td><td>梦墟副本 + "魔焰滔天"赛季 + 魂器</td><td> Endgame 内容 + 赛季制启动</td></tr>
+    </table>
+    <div class="note"><b>判断：</b>前 12 关铺满九大系统，节奏激进——按单关 5~9 分钟估算，平均每两三关就解锁一个新系统。好处是新手期留存数据好看，代价是<b>系统教学负担重、日常清单在前三天就堆满</b>，为后期"上班感"埋下伏笔。</div>
+  </div>
+</section>
+
+<!-- ================= 03 战斗系统（深挖） ================= -->
+<section class="zhang" id="z3">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">叁</span></div>
+    <div class="zhang-tt">
+      <h2>战斗系统 ★深挖</h2>
+      <p>COMBAT · 连击博弈、护盾拆解与三角色差异</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel night reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-sword"/></svg></div><h3>3.1 操作模型与战斗 HUD</h3><span class="p-sub">信源：实机截图 13/14/15</span></div>
+    <p>战斗为<span class="gld">横版移动 + 跳跃 + 技能连携</span>的经典模型。PC 端键位：<span class="kbd">空格</span>无双 + <span class="kbd">U</span><span class="kbd">I</span><span class="kbd">O</span><span class="kbd">L</span><span class="kbd">H</span> 五个技能位 + <span class="kbd">C</span><span class="kbd">V</span><span class="kbd">B</span><span class="kbd">N</span><span class="kbd">M</span> 道具位 + <span class="kbd">Z</span> 宠物/侧栏 + <span class="kbd">Q</span><span class="kbd">E</span> 消耗品。五个技能位对应技能树里"已启用"的技能——<b>技能树的构筑结果直接映射到战斗操作层</b>，这是养成与战斗的接口。</p>
+    <p>HUD 信息架构：左上双玩家血条/蓝条（组队共存）、上中 Boss 名+<span class="hl">护盾条（蓝色值 + 分段标记，图13 中为 ×5）</span>、右上<span class="hl">连击计数</span>（书法字"27连击"/"130连击"）、伤害数字浮动。我特别注意到右上角连击数用了书法体+金色——"打得多炫"直接变成了看得见的奖励，横版动作里很划算的一笔。</p>
+    <div class="shots">
+      <figure class="shot" data-cap="图13 · Boss战实战：云阳的连击保护护盾（金色护盾环+×5架势条）、27连击计数">
+        <img src="images/boss连击保护护盾.png" alt="boss连击保护护盾" loading="lazy">
+        <figcaption><span class="no">图13</span>Boss 战 HUD · 护盾条 ×5 段 + 27连击 + 双人血条</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图14 · 高潮定格演出：巨幅书法「破」字+130连击">
+        <img src="images/击败boss动画.png" alt="击败boss动画" loading="lazy">
+        <figcaption><span class="no">图14</span>书法「破」字演出 · Boss战高潮的国风定格</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel night reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-shield"/></svg></div><h3>3.2 连击保护护盾：防压制的博弈开关</h3><span class="p-sub">核心机制拆解</span></div>
+    <p>图13 里最值得学的设计：<b>Boss 的"连击保护护盾"</b>。玩家连击数攀升后，Boss 周身出现金色护盾环并进入霸体，同时顶部架势条分段显示（图13 为 ×5，图12 战败画面中同一 Boss 云阳为 ×3——段数随 Boss 阶段或人数变化【推测】）——连击打到阈值后 Boss 开盾，打断玩家的无限连。</p>
+    <ul class="dots">
+      <li><b>为什么需要它</b>：横版动作的固有问题是"一旦连上就无限连"，Boss 变成木桩。护盾机制把战斗从"执行连招表"变成<span class="hl">"连击窗口管理"</span>——开盾前抢输出，开盾后走位拆盾/等架势条回落，战斗节奏被强制起伏。</li>
+      <li><b>分段架势条的意义</b>：把"盾还剩多久"这个看不见的东西画成段位标记，玩家能预判开盾时机再决定接着打还是先走位。说白了就是把隐藏机制摆到台面上，挫败感自然就降下来了。</li>
+      <li><b>配套细节</b>：更新公告中出现"修复部分子弹击退参数异常"——击退/浮空等硬直参数与护盾体系联动，说明打击反馈是经过整轮调参的，不是纯数值堆砌。</li>
+    </ul>
+    <div class="note"><b>可复用结论：</b>"连击数 → 触发 Boss 护盾 → 可视化架势条"三件套，实现成本就是一个状态机加一条 UI，却同时解决了无限连、输出节奏、操作深度三个问题。<b>笔者认为这是本作战斗里最漂亮的一笔。</b></div>
+  </div>
+
+  <div class="panel night reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-skillring"/></svg></div><h3>3.3 技能系统：环形树 + 无双核</h3><span class="p-sub">信源：实机截图 26</span></div>
+    <p>技能界面（图26）是全游戏最有辨识度的 UI：八个技能图标<span class="gld">环形排布</span>，圆心是"无双"大招，左页签为 技能 / 修心 / 魂器 三大角色面板。</p>
+    <ul class="dots">
+      <li><b>环形语义</b>：中心无双=角色核心，八个技能环绕=外围能力。等级上限随进度（截图中 10/11/6/1 级并存），升级条件为<span class="hl">角色等级门槛（火魔斩 6→7 级需角色 30 级）+ 升阶材料</span>；升级后技能的战斗内蓝耗同步上调（217→305 魔法）——<b>威力与消耗同涨</b>，技能等级同时也是蓝耗管理决策【判断】。</li>
+      <li><b>技能设计样例（火魔斩）</b>：冷却 10 秒、消耗 217 魔法，标注"充能技"——空中释放获得短暂<span class="hl">无敌帧</span>，落地最后一斩范围扩大。无敌帧 + 空中择，说明动作层有真实的博弈深度。</li>
+      <li><b>被动与分身</b>："斗战胜佛"为被动技，"多重分身"为召唤系——技能类型覆盖主动/充能/被动/召唤，构筑自由度接近页游时代造梦的老配方。</li>
+      <li><b>减负四件套</b>：底部"启用本页 / 技能装配 / 重置技能 / 一键升级"——多页技能页切换（PVE/PVP 各一套配置），一键升级消化技能点。这种减负意识在后面的章节里还会反复看到。</li>
+    </ul>
+    <div class="shots one">
+      <figure class="shot" data-cap="图26 · 角色技能装配：环形技能树，中心无双+八技能环绕，右侧技能详情">
+        <img src="images/角色技能装配.png" alt="角色技能装配" loading="lazy">
+        <figcaption><span class="no">图26</span>技能装配 · 环形树 + 无双核心，右侧详情面板（冷却/消耗/充能技说明）</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel night reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-tri"/></svg></div><h3>3.4 三角色定位与雷达图</h3><span class="p-sub">六维数值为【推测】，轴名来自选角界面</span></div>
+    <div class="radar-box">
+      <svg width="280" height="280" viewBox="0 0 260 260" role="img" aria-label="三角色六维雷达图">
+        <g stroke="rgba(233,194,104,.28)" fill="none" stroke-width="1">
+          <polygon points="130,105 152.5,117.5 152.5,142.5 130,155 107.5,142.5 107.5,117.5"/>
+          <polygon points="130,80 175,105 175,155 130,180 85,155 85,105"/>
+          <polygon points="130,55 197.5,92.5 197.5,167.5 130,205 62.5,167.5 62.5,92.5"/>
+          <polygon points="130,30 220,80 220,180 130,230 40,180 40,80"/>
+          <line x1="130" y1="130" x2="130" y2="30"/><line x1="130" y1="130" x2="220" y2="80"/>
+          <line x1="130" y1="130" x2="220" y2="180"/><line x1="130" y1="130" x2="130" y2="230"/>
+          <line x1="130" y1="130" x2="40" y2="180"/><line x1="130" y1="130" x2="40" y2="80"/>
+        </g>
+        <polygon points="130,40 156,115 199,170 130,190 95,150 113,120" fill="rgba(214,64,47,.30)" stroke="#d6402f" stroke-width="2"/>
+        <polygon points="130,70 208,85 165,150 130,170 52,175 87,105" fill="rgba(47,145,132,.26)" stroke="#2f9184" stroke-width="2"/>
+        <polygon points="130,80 147,120 156,145 130,220 104,145 61,90" fill="rgba(201,151,63,.24)" stroke="#c9973f" stroke-width="2"/>
+        <g font-size="13" fill="#8a6a38" text-anchor="middle" font-family="'ZCOOL XiaoWei',serif">
+          <text x="130" y="18">爆发</text><text x="233" y="74">射程</text><text x="233" y="198">机动</text>
+          <text x="130" y="252">生命</text><text x="27" y="198">魔法</text><text x="27" y="74">辅助</text>
+        </g>
+      </svg>
+      <div class="radar-legend">
+        <div class="lg"><span class="sw" style="background:#d6402f"></span>孙悟空 — 爆发/机动拉满，连招紧凑，火系技能树（图26），操作上限最高</div>
+        <div class="lg"><span class="sw" style="background:#2f9184"></span>唐三藏 — 射程/魔法特化，站桩远程，容错率最高（官方新手推荐位）</div>
+        <div class="lg"><span class="sw" style="background:#c9973f"></span>牛魔王 — 生命/辅助特化，坦克定位，6元解锁或赛季免费——付费角色的差异化卖点是"耐揍"而非数值碾压【判断】</div>
+      </div>
+    </div>
+    <p>选角界面的雷达图（图02 右侧）用六边形给出三人定位差异，是我非常喜欢的<b>信息前置</b>：在玩家还不了解系统时，先用一张图回答"这三个角色有什么区别"。三人共享关卡与养成资源，差异只在战斗手感——<span class="hl">角色是"皮肤化的玩法模块"</span>，而不是像传统 MMO 的职业壁垒。另外皮肤/衣柜、登录效果等外观线持续更新（8/7 公告），角色外观商业化有空间。</p>
+    <div class="quote">实测感受：悟空的火系技能特效（图21 法宝觉醒实战）在 Boss 房里几乎糊满全屏，华丽但略遮操作视野——华丽度与可读性的平衡是这套特效的潜在风险点。</div>
+    <div class="shots">
+      <figure class="shot" data-cap="图21 · 法宝觉醒实战：全屏火系特效">
+        <img src="images/法宝觉醒实战画面.png" alt="法宝觉醒实战画面" loading="lazy">
+        <figcaption><span class="no">图21</span>法宝觉醒实战 · 技能特效华丽度拉满</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图08 · 关卡内剧情交互：NPC对话「尸王？……都是冲着那道残魂来的」（按J继续）">
+        <img src="images/boss战前剧情交互.png" alt="boss战前剧情交互" loading="lazy">
+        <figcaption><span class="no">图08</span>剧情交互 · 关卡内的叙事"呼吸口"与残魂主线线索</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 关卡设计（深挖） ================= -->
+<section class="zhang" id="z4">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">肆</span></div>
+    <div class="zhang-tt">
+      <h2>关卡设计 ★深挖</h2>
+      <p>LEVEL DESIGN · 地形分层、隐藏分支与章节主题</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-map"/></svg></div><h3>4.1 章节结构：从居安镇到地府</h3><span class="p-sub">信源：公告时间线 + 世界地图</span></div>
+    <p>世界地图包含<span class="gld">「人间 / 地府 / 梦墟」三类区域页签</span>（图05 人间页、图09 地府页、图20 梦墟异变页）。主线脉络按公告时间线还原：新手章<span class="gld">居安镇</span>起步，人间页为唐风城镇群（延兴门、大雁塔、圆丘、天津桥等），其后<span class="gld">赤湖</span>（8/14 开放，55级）与<span class="gld">地府篇</span>（黄泉路 / 忘川河 / 冥海 7/24 → 朽枯林 9/4，60级）<b>交错开放，并非严格线性</b>；「梦墟」页则是魔焰滔天赛季的异变世界（图20：人间全境被魔焰侵蚀）。每章一个视觉主题：人间的水墨城镇、赤湖的丹霞水土、地府的幽绿鬼火——平均每两三周投放一张新地图（详见 9.1 时间线）。</p>
+    <ul class="dots">
+      <li><b>异变与副本</b>：梦墟（图20，赛季异变世界页——牛魔梦魇挑战分一重/二重/三重难度）、轮回墟镜（图32）、葛芦之山（材料本）——正线之外用"异空间"主题区隔玩法定位。</li>
+      <li><b>关卡节奏</b>：界面顶部为<span class="hl">副本耗时</span>计时（多张截图记录到 01:45 / 03:28 / 05:36 / 08:30，结算页 08:40），单局普遍在 5~9 分钟量级，<b>偏中重度</b>；剧情交互（图08）作为节奏呼吸口。</li>
+    </ul>
+    <div class="shots">
+      <figure class="shot" data-cap="图05 · 世界地图「人间」页：延兴门/大雁塔/圆丘/天津桥等唐风地标+赤湖主线任务追踪">
+        <img src="images/关卡地图全貌.png" alt="关卡地图全貌" loading="lazy">
+        <figcaption><span class="no">图05</span>人间页地图 · 唐风城镇群与任务追踪</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图31 · 赤湖地图实机：丹霞地貌主题章节">
+        <img src="images/赤湖地图实机画面.png" alt="赤湖地图实机画面" loading="lazy">
+        <figcaption><span class="no">图31</span>赤湖实机 · 主题化地貌配色</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图20 · 梦墟（赛季异变世界页）：人间全境被魔焰侵蚀，牛魔梦魇分一/二/三重挑战">
+        <img src="images/梦墟地图.png" alt="梦墟地图" loading="lazy">
+        <figcaption><span class="no">图20</span>梦墟页 · 魔焰滔天下的异变人间</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图32 · 轮回墟镜实机：异空间副本">
+        <img src="images/轮回墟镜实机画面.png" alt="轮回墟镜实机画面" loading="lazy">
+        <figcaption><span class="no">图32</span>轮回墟镜 · 异空间主题副本</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-terrain"/></svg></div><h3>4.2 地形设计：三层纵深的走图体验</h3><span class="p-sub">信源：实机截图 06/07</span></div>
+    <p>以朽枯林（图06）为例拆解地形：<span class="gld">上层悬崖路径 → 中层悬浮石台（玩家动线）→ 下层木桥平台</span>，三层纵向纵深让"从左走到右"变成了分段探索。几个观察点：</p>
+    <ul class="dots">
+      <li><b>跳跃间隙就是节奏</b>：中层石台之间的断口是天然的战斗触发器——跳跃落点附近刷怪，走位和跳跃被地形串到一起，走图不单调。</li>
+      <li><b>层次就是信息</b>：暗色低层+亮色平台拉出明度对比，哪里能站一眼就能看出来，横版游戏常见的"路该怎么走"的歧义被压到了最低。</li>
+      <li><b>双人协同地形</b>：图15 双人组队关卡中出现了分叉高台——两个玩家可以分层站位夹击，组队关卡的地形比单人图更立体【判断】。</li>
+    </ul>
+    <div class="shots">
+      <figure class="shot" data-cap="图06 · 关卡地形：朽枯林三层纵深（悬崖/石台/木桥）">
+        <img src="images/关卡地形.png" alt="关卡地形" loading="lazy">
+        <figcaption><span class="no">图06</span>朽枯林地形 · 三层纵向纵深与跳跃间隙</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图07 · 关卡地形2：上层路径与怪物布点">
+        <img src="images/关卡地形2.png" alt="关卡地形2" loading="lazy">
+        <figcaption><span class="no">图07</span>地形细节 · 怪物布点与平台节奏</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-key"/></svg></div><h3>4.3 隐藏内容：探索层的奖励设计</h3><span class="p-sub">信源：实机截图 33/34</span></div>
+    <p>关卡里埋了两类隐藏点（两张截图均取自双人关卡"丰都"）：<span class="hl">隐藏关卡入口</span>（图34：金色箭头直指一口水井——入口藏在"跳下去"的反直觉位置）和<span class="hl">隐藏交互入口</span>（图33：建筑门前浮现 <span class="kbd">F</span> 键提示的互动点）。潜台词是"每张图都值得再走一遍"，再配上扫荡功能（8/22 给夜开鬼门补了扫荡）——第一次探索自己动手，重复劳动交给扫荡，探索的乐趣和刷材料的枯燥各归各位。</p>
+    <div class="shots">
+      <figure class="shot" data-cap="图34 · 丰都双人关卡：金色箭头直指水井——反直觉位置的隐藏入口">
+        <img src="images/隐藏关卡入口.png" alt="隐藏关卡入口" loading="lazy">
+        <figcaption><span class="no">图34</span>隐藏入口 · 箭头指引的水井机关（丰都·双人）</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图33 · 丰都关卡：建筑门前浮现F键提示的交互入口">
+        <img src="images/隐藏交互入口.png" alt="隐藏交互入口" loading="lazy">
+        <figcaption><span class="no">图33</span>交互入口 · F键提示的场景互动点（丰都）</figcaption>
+      </figure>
+    </div>
+    <div class="note"><b>本章小结：</b>关卡设计的完成度高于预期——三层纵深、隐藏分支、战前演出、主题化美术都做了。但关卡机制复用度偏高（走图+Boss 两板斧），机制型关卡（机关解谜/防守波次）尚未见到，这是内容产能的潜在瓶颈【判断】；实测体验另暴露一处硬伤：自第二张地图起逐关难度递进失衡、Boss 数值过高，卡关挫败会先于"机制单调"消耗掉玩家耐心（详见 11.2）。</div>
+  </div>
+</section>
+
+<!-- ================= 05 养成矩阵（深挖） ================= -->
+<section class="zhang" id="z5">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">伍</span></div>
+    <div class="zhang-tt">
+      <h2>养成矩阵 ★深挖</h2>
+      <p>PROGRESSION · 九线并行的广度养成模型</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-grid9"/></svg></div><h3>5.1 九线总览：一条主线，九条支流</h3><span class="p-sub">"我要变强"面板九宫格即养成地图</span></div>
+    <table class="tbl">
+      <tr><th style="width:14%">养成线</th><th style="width:30%">核心内容</th><th style="width:28%">资源闭环</th><th>深挖要点</th></tr>
+      <tr><td><b>装备</b></td><td>部位套装（青傀/咒骨/神工），强化+12，墟化1~8层</td><td>关卡掉落 → 强化石/墟化材料</td><td>强化与墟化双轨（图17）</td></tr>
+      <tr><td><b>宝石</b></td><td>6槽：防御/生命/回血/闪避/韧性/守护</td><td>三角宝石合成升级</td><td>一键装卸减负（图17）</td></tr>
+      <tr><td><b>修心</b></td><td>六维属性挂机成长</td><td>挂机产"心得"，每日免费顿悟=4小时收益</td><td>离线收益钩子</td></tr>
+      <tr><td><b>技能</b></td><td>环形技能树升级（3.3节）</td><td>角色等级门槛+升阶材料；蓝耗随级上调</td><td>构筑映射操作</td></tr>
+      <tr><td><b>法宝</b></td><td>闲置装备合成法宝，器灵觉醒</td><td>装备回收 → 法宝 → 觉醒技能</td><td>与器灵强耦合</td></tr>
+      <tr><td><b>器灵</b></td><td>抽卡+升星+灵印镶嵌</td><td>唤灵卷轴 → 残魂分解 → 灵韵精华兑换</td><td>全游戏最复杂闭环（5.3节）</td></tr>
+      <tr><td><b>魂器</b></td><td>梦墟掉落，装配激活专属技能，墟化</td><td>魂币 / 墟烬（梦魇每日3次）</td><td>Endgame 深度线（图18）</td></tr>
+      <tr><td><b>宠物</b></td><td>捕捉/潜能/装备+传承/PK</td><td>神兽森林派遣产出</td><td>装备传承回收旧资源</td></tr>
+      <tr><td><b>坐骑</b></td><td>捕捉、召唤参战、装备</td><td>与宠物共用潜能体系</td><td>捕捉玩法情感化</td></tr>
+    </table>
+    <p>这张表的横向对比能看出清晰的设计权重：<b>装备-宝石-器灵-魂器四条线是"数值主力"</b>（都有独立面板入口），宠物-坐骑-风物是"情感层"，修心-技能是"保底线"。官方"我要变强"九宫格（图10：获得装备/修心/技能升级/法宝培养/宠物培养/坐骑培养/装备强化/宝石镶嵌/魂器获得）与上表大体对应——差异在于官方将"获得装备/装备强化"分列、未单列器灵线，本文按资源闭环合并装备线并补入器灵。<span class="hl">玩家看到的引导顺序，基本就是设计者心里的养成权重</span>。</p>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-gem"/></svg></div><h3>5.2 装备双轨制：强化 × 墟化</h3><span class="p-sub">信源：实机截图 17</span></div>
+    <p>装备面板（图17）左侧列表暴露了完整信息：每件装备有<span class="gld">两个成长轴</span>——"X层"（墟化层数，如"3层"）和"+N"（强化等级，如"+6"，上限+12）。页签为 强化 / 镶嵌 / 合成 / 墟化 四项。</p>
+    <ul class="dots">
+      <li><b>宝石系统</b>：装备中心环绕 6 个镶嵌槽，属性覆盖 防御/生命/回血/闪避/韧性/守护——注意"守护""韧性"是功能属性不是纯数值，说明防御端有机制设计空间。三角宝石可"一键装配/一键卸下/合成"，减负到位。</li>
+      <li><b>墟化</b>：梦墟玩法的专属强化轴（最高8层），材料"墟烬"来自每日3次的梦魇挑战——<span class="hl">Endgame 副本与装备第二成长轴绑定</span>，保证高难副本长线价值。</li>
+      <li><b>装备合成法宝</b>：闲置装备是法宝的合成材料（3关解锁）——老装备永远有出口，这是对"刷不到货"挫败感的对冲设计。</li>
+    </ul>
+    <div class="shots one">
+      <figure class="shot" data-cap="图17 · 装备镶嵌宝石界面：6槽环绕镶嵌+左侧装备列表（层数/强化双轴）">
+        <img src="images/装备镶嵌宝石界面.png" alt="装备镶嵌宝石界面" loading="lazy">
+        <figcaption><span class="no">图17</span>宝石镶嵌 · 环形槽位与三角宝石合成</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-card"/></svg></div><h3>5.3 器灵系统：全游戏最复杂的资源闭环</h3><span class="p-sub">信源：实机截图 16 + 官方公告（7/31）</span></div>
+    <p>器灵是 7/31 版本上线的抽卡型养成线，挂在法宝系统下：<b>器灵永久提升角色属性，传说器灵可解锁法宝特殊外观与战斗技能</b>（如法宝"敦风埙"+传说器灵"绯廉"→觉醒技能"灵火飞廉"）。它的完整闭环值得逐环拆：</p>
+    <ul class="dots">
+      <li><b>五档品质</b>：传说 / 史诗 / 精良 / 优秀 / 普通，卡池界面直接用紫/金标签标注（图16）。</li>
+      <li><b>保底结构</b>：每 10 抽必出精良以上；卡池界面实时显示"再唤灵 131 次必出传说"——<span class="hl">保底进度条直接写在 Banner 上</span>，付费预期透明化（对比很多游戏藏保底进详情页，这是信任向设计）。</li>
+      <li><b>升星</b>：消耗 80 个"器灵升星石"升一星，属性递增。</li>
+      <li><b>灵印</b>：优秀以上品质开灵印槽，灵印可镶嵌+升级+解锁随机副词条——在抽卡之上再叠一层"词条洗练"深度。</li>
+      <li><b>回收链</b>：重复器灵自动转化为"残魂"（传说40/史诗30/精良20/低阶15）→ 满星后溢出残魂分解为"灵韵精华"→ 兑换唤灵卷轴/灵印/低阶器灵。三层回收下来基本没有死资源，这套卡牌经济做得相当老练。</li>
+      <li><b>免费投放</b>：每日免费1抽 + 等级礼包（20/30/40/50级共40卷）+ 支线任务35卷 + 兑换商店——免费玩家一个版本周期能攒出一次"小保底"。</li>
+    </ul>
+    <div class="shots">
+      <figure class="shot" data-cap="图16 · 器灵系统卡池（绯廉落羽）：水墨泼墨风Banner+紫金品质标签+保底计数">
+        <img src="images/器灵系统.png" alt="器灵系统" loading="lazy">
+        <figcaption><span class="no">图16</span>器灵卡池 · "再唤灵131次必出传说"的透明保底</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图18 · 魂器装配及技能：Endgame 养成线">
+        <img src="images/魂器装配及技能.png" alt="魂器装配及技能" loading="lazy">
+        <figcaption><span class="no">图18</span>魂器装配 · 专属技能激活</figcaption>
+      </figure>
+    </div>
+    <div class="note"><b>判断：</b>器灵线的"抽卡+升星+灵印+回收"四层结构已经是完整卡牌手游深度，叠加法宝觉醒联动后，<b>它同时承担了属性成长、外观付费、技能解锁三重商业化职能</b>——是后期付费的核心，也是"骗氪"口碑争议的源头。</div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-paw"/></svg></div><h3>5.4 宠物与坐骑：情感层养成</h3><span class="p-sub">信源：实机截图 22/23/24/25</span></div>
+    <ul class="dots">
+      <li><b>捕捉玩法</b>：坐骑捕捉（图24 捕捉画面→图25 捕捉成功）是主动玩法而非抽卡——战斗中削弱后捕捉，成功的仪式感（金色光环+结算字样）做得足。<span class="hl">"亲手抓来的"比"抽到的"情感浓度高</span>，这是页游时代神兽系统的老传承。</li>
+      <li><b>潜能系统</b>：宠物/坐骑共用潜能书/忘潜书（可重置，防废档）——随机潜能+可重置，赌点但不锁死。</li>
+      <li><b>宠物装备+传承</b>：9/4 版本上线宠物装备传承——旧装备价值转移到新宠物，与人物装备合成法宝同思路：<span class="hl">养成永远给旧资产留出口</span>。</li>
+      <li><b>战斗协同</b>：宠物跟随出战（图13/14 可见），坐骑关卡中召唤参战；神兽森林每日派遣产出三类材料——宠物同时是战力、情感、产出三条线的交汇点。</li>
+    </ul>
+    <div class="shots">
+      <figure class="shot" data-cap="图22 · 宠物背包及养成界面">
+        <img src="images/宠物背包及养成界面.png" alt="宠物背包及养成界面" loading="lazy">
+        <figcaption><span class="no">图22</span>宠物养成 · 潜能与培养</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图23 · 宠物装备界面：熔火系列与传承">
+        <img src="images/宠物装备界面.png" alt="宠物装备界面" loading="lazy">
+        <figcaption><span class="no">图23</span>宠物装备 · 传承系统回收旧资产</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图24 · 坐骑捕捉画面">
+        <img src="images/坐骑捕捉画面1.png" alt="坐骑捕捉画面" loading="lazy">
+        <figcaption><span class="no">图24</span>坐骑捕捉 · 战斗中捕捉的主动玩法</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图25 · 坐骑捕捉成功：金色光环仪式感">
+        <img src="images/坐骑捕捉成功界面.png" alt="坐骑捕捉成功界面" loading="lazy">
+        <figcaption><span class="no">图25</span>捕捉成功 · 情感化瞬间设计</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-frame"/></svg></div><h3>5.5 风物图鉴：收集向的第三空间</h3><span class="p-sub">信源：实机截图 35/36/37</span></div>
+    <p>风物（图鉴收集品，如"染瘟枯棘"）有三件套：<span class="gld">风物总览 → 系列图鉴 → 获取动画</span>。每章新关卡投放新系列风物（地府篇"染瘟枯棘"），收集齐有展示与属性收益。判断：风物线的数值权重很低，真正的价值是<b>给"看风景"的玩家一个理由</b>——美术资源顺手二次利用成长线收集目标，几乎是白捡的长线内容。</p>
+    <div class="shots">
+      <figure class="shot" data-cap="图35 · 风物总览">
+        <img src="images/风物总览.png" alt="风物总览" loading="lazy">
+        <figcaption><span class="no">图35</span>风物总览 · 收集进度一目了然</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图36 · 系列风物图鉴：章节主题的二次利用">
+        <img src="images/系列风物图鉴.png" alt="系列风物图鉴" loading="lazy">
+        <figcaption><span class="no">图36</span>系列图鉴 · 章节主题的二次利用</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图37 · 风物获取动画：收集的仪式感">
+        <img src="images/风物获取动画.png" alt="风物获取动画" loading="lazy">
+        <figcaption><span class="no">图37</span>获取动画 · 花小钱办大事的奖励瞬间</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 数值模型（深挖） ================= -->
+<section class="zhang" id="z6">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">陆</span></div>
+    <div class="zhang-tt">
+      <h2>数值模型 ★深挖</h2>
+      <p>NUMERICAL · 战力构成、成长曲线与卡点</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-chart"/></svg></div><h3>6.1 战力构成与变强指引</h3><span class="p-sub">信源：实机截图 10（54级 · 战力107762）</span></div>
+    <p>截图样本：54 级角色，战力 <span class="gld">107,762</span>，经验 15,849 / 420,070（升55级需约 42 万经验）。战力是全系统加权的单一数值，官方在"我要变强"面板里给出了<b>九条变强路径的官方权重序</b>：获得装备 → 修心 → 技能升级 → 法宝培养 → 宠物培养 → 坐骑培养 → 装备强化 → 宝石镶嵌 → 魂器获得。这个排序即官方认可的<b>性价比序</b>【推测】。</p>
+    <ul class="dots">
+      <li><b>聚合入口的价值</b>：卡点的时候玩家缺的不是资源，是"下一步干什么"的确定性。变强指引把九线收进一个面板、每项一键跳转——养成线多本来是认知负担，被它反过来做成了引导优势。</li>
+      <li><b>聊天栏的场景化运营</b>：变强面板下方直接滚动世界招募信息（"点击空白处关闭/加入"），把组队转化嵌进了最强需求场景。</li>
+    </ul>
+    <div class="shots one">
+      <figure class="shot" data-cap="图10 · 变强指引界面：战力107762+九条变强路径聚合">
+        <img src="images/变强指引界面.png" alt="变强指引界面" loading="lazy">
+        <figcaption><span class="no">图10</span>我要变强 · 九线养成的官方导航面板</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-stairs"/></svg></div><h3>6.2 成长曲线与版本卡点</h3><span class="p-sub">信源：公告数值 + 【推测】建模</span></div>
+    <table class="tbl">
+      <tr><th>维度</th><th>数据点</th><th>推断的曲线特征</th></tr>
+      <tr><td><b>等级上限</b></td><td>55级（8/14）→ 60级（9/4），约3周一档</td><td>版本制锁级：上限=内容进度阀门，防止数值通胀失控</td></tr>
+      <tr><td><b>经验需求</b></td><td>54级升55需420,070（截图）</td><td>指数增长；靠挂机心得+体力总量控制日成长【推测】</td></tr>
+      <tr><td><b>装备强化</b></td><td>+12 上限，强化石产自每日 2 次的材料本</td><td>线性+材料墙：每日产出封顶，付费买"次数"而非直接数值</td></tr>
+      <tr><td><b>装备墟化</b></td><td>1~8层，墟烬每日3次梦魇</td><td>Endgame 轴与每日次数绑定</td></tr>
+      <tr><td><b>器灵保底</b></td><td>10抽保底精良 / 131抽必出传说 / 日限500抽</td><td>双保底+日上限：控制欧非差距，也封顶大R单日爆肝</td></tr>
+      <tr><td><b>修心</b></td><td>上限50级（7/24）随版本同步</td><td>六维属性作为"永远可涨"的兜底成长</td></tr>
+    </table>
+    <div class="note"><b>判断：</b>数值模型的核心策略是<span class="hl">"版本锁级 + 每日次数墙"</span>——所有硬数值线的日产出都有上限，付费加速但不突破天花板。这保证了周更节奏下的数值生态稳定，但也意味着<b>大 R 的优势只能往抽卡线（器灵/宠物）挤压</b>，这与社区"骗氪"感知直接相关。</div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-target"/></svg></div><h3>6.3 卡点—指引—日常的循环闭环</h3><span class="p-sub">综合拆解</span></div>
+    <p>把 2~6 章串起来，官方设计的标准循环是：<span class="hl">主线卡点 → 变强指引给出9条路径 → 玩家进入日常资源本（悬赏×3 / 葛芦之山×2 / 梦魇×3 / 神兽森林派遣）→ 次日战力提升破卡 → 新关卡新系统</span>。每个资源本都有明确的次数上限和主线挂靠，玩家永远知道"今天的体力该花在哪"。<b>这套闭环的执行质量很高</b>，唯一的风险是九线日常全清的时长——按各本次数与走图时间估算，全清约 60~90 分钟/天【推测】，对休闲用户偏重。</p>
+  </div>
+</section>
+
+<!-- ================= 07 社交玩法 ================= -->
+<section class="zhang" id="z7">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">柒</span></div>
+    <div class="zhang-tt">
+      <h2>社交与多人玩法</h2>
+      <p>SOCIAL · 轻社交、异步对抗与宠物PK</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-users"/></svg></div><h3>7.1 组队链路：大厅→房间→共斗</h3><span class="p-sub">信源：实机截图 27/28/15</span></div>
+    <p>组队链路三段式：<span class="gld">组队大厅（招募信息流）→ 组队界面（房间/申请/好友邀请）→ 双人组队关卡</span>。双人关卡复用单人关卡结构但地形更立体（图15），结算各自独立。聊天系统常驻主界面（图10 底部滚动条），世界频道带一键加入——<b>社交入口全部嵌在场景里，不做独立社交大厅</b>，小团队做网游社交基本都是这么取舍的。</p>
+    <div class="shots">
+      <figure class="shot" data-cap="图27 · 组队大厅：招募信息流">
+        <img src="images/组队大厅.png" alt="组队大厅" loading="lazy">
+        <figcaption><span class="no">图27</span>组队大厅 · 招募信息流</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图28 · 组队界面：房间与邀请">
+        <img src="images/组队界面.png" alt="组队界面" loading="lazy">
+        <figcaption><span class="no">图28</span>组队界面 · 房间制组队</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图15 · 双人组队关卡：双血条+分层地形">
+        <img src="images/双人组队关卡.png" alt="双人组队关卡" loading="lazy">
+        <figcaption><span class="no">图15</span>双人共斗 · 双血条与协同走位</figcaption>
+      </figure>
+      <figure class="shot" data-cap="图03 · 万灵演武：宠物自动对战竞技场">
+        <img src="images/万灵演武界面.png" alt="万灵演武界面" loading="lazy">
+        <figcaption><span class="no">图03</span>万灵演武 · 宠物PK的对称竞技场</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-trophy"/></svg></div><h3>7.2 三层PVP：异步为本，宠物差异化</h3><span class="p-sub">信源：公告 + 实机</span></div>
+    <ul class="dots">
+      <li><b>长安演武（人物异步PVP）</b>：每日 1 次，胜利自选强化词条，每周一段位重置——异步镜像战免实时匹配压力，词条自选给了一次"策略微操"。</li>
+      <li><b>万灵演武（宠物PK，8/28 新增）</b>：宠物自动对战，双方各带两只宠物分台站位（图03：等级、血量、技能能量条全可见），支持 ×2 倍速，9/4 补充战报回放。<span class="hl">把养成深度转化为观赏性对抗</span>——宠物线的价值被 PVP 二次变现，聪明。</li>
+      <li><b>灵鸟孵宠（3v3 夺蛋竞技）</b>：赛季段位结算 + 灵鸟币兑换，8/7 版本补了"机器人匹配"——<b>匹配池不足时用 AI 兜底</b>，保体验不断档，中小DAU产品的务实做法。</li>
+      <li><b>轻社交周边</b>：联盟（战勋商店）、NPC 交友（8/7 新增梁祝NPC）、师徒。全都是弱绑定关系，没有强制协作的多人副本超过 2 人。</li>
+    </ul>
+    <div class="note"><b>判断：</b>社交设计的关键词是<span class="hl">"异步 + 兜底"</span>——不赌实时在线密度，用异步镜像、战报回放、机器人匹配保证任何时段体验完整。这是横版单机基因产品做网游化的稳妥路线，代价是社交粘性上限低。</div>
+  </div>
+</section>
+
+<!-- ================= 08 经济与商业化 ================= -->
+<section class="zhang" id="z8">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">捌</span></div>
+    <div class="zhang-tt">
+      <h2>经济与商业化</h2>
+      <p>MONETIZATION · 货币矩阵、礼包结构与口碑争议</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-coin"/></svg></div><h3>8.1 货币与代币矩阵</h3><span class="p-sub">信源：实机 + 公告汇总</span></div>
+    <table class="tbl">
+      <tr><th style="width:18%">货币</th><th style="width:30%">获取</th><th>核心去向</th></tr>
+      <tr><td><b>元宝</b></td><td>活动/维护补偿/礼包</td><td>通用硬通货（复活、商店、兑换）</td></tr>
+      <tr><td><b>点券</b></td><td>充值</td><td>点券商店（等级礼包/直购）</td></tr>
+      <tr><td><b>魂币</b></td><td>牛魔谷赛季副本</td><td>梦墟入场凭证（8/14 新增补给功能）</td></tr>
+      <tr><td><b>唤灵卷轴</b></td><td>每日免费/等级礼包/支线/兑换</td><td>器灵抽卡</td></tr>
+      <tr><td><b>战勋 / 灵鸟币 / 云游令</b></td><td>联盟 / 灵鸟孵宠 / 战令</td><td>各自专属商店——玩法代币隔离</td></tr>
+      <tr><td><b>灵韵精华 / 残魂</b></td><td>器灵分解</td><td>回收再循环（5.3节）</td></tr>
+    </table>
+    <p>观察：主货币只有元宝/点券两条，其余全是<span class="gld">玩法绑定的专用代币</span>——每种代币对应一个玩法出口，防止通胀互相污染，这是教科书式的多玩法经济隔离。</p>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-hongbao"/></svg></div><h3>8.2 商城结构：小额高频的礼包阵列</h3><span class="p-sub">信源：实机截图 19</span></div>
+    <p>商城页签：<span class="gld">推荐 / 限时热卖 / 超值礼包 / 元宝月卡 / 互惠商店</span>。限时热卖页的三件套非常典型：</p>
+    <ul class="dots">
+      <li><b>¥8 超值礼包</b>（标注"优惠450%"，周限购 5/5）：元宝800+材料——<span class="hl">周限购×低价×高折扣标注</span>，锚定"超值"心智的入门位。</li>
+      <li><b>¥30 超值礼包</b>（优惠355%，周限购 2/2）：中位价格带，元宝3000+稀缺材料。</li>
+      <li><b>¥6 传说器灵礼包</b>（优惠340%，<b>每日</b>限购 1/1）：直连抽卡线——<span class="hl">"每日"限购制造连续登录付费习惯</span>，是三件套里LTV设计最狠的一个。</li>
+    </ul>
+    <p>折扣百分比的呈现方式（450%！）是页游时代的经典锚定话术：以"按元宝面值折算"夸大让利感。叠加战令（多期并行：云游令/宠物手记/夜行录）、累计充值、6元解锁角色，付费点密度相当高。</p>
+    <div class="shots one">
+      <figure class="shot" data-cap="图19 · 商场礼包付费界面：三价格带礼包+折扣锚定+周/日限购">
+        <img src="images/商场礼包付费界面.png" alt="商场礼包付费界面" loading="lazy">
+        <figcaption><span class="no">图19</span>限时热卖 · ¥6/¥8/¥30 三价格带与限购结构</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-bubble"/></svg></div><h3>8.3 口碑争议的机制根源</h3><span class="p-sub">信源：TapTap / 小米社区评论</span></div>
+    <div class="quote">"纯骗氪游戏，灵鸟的产出也不加。开服 1 个月就出新角色" —— TapTap 用户<br>"装备爆率比金魂器爆率高几百倍，你以后有的刷" —— 社区回复（吐槽主线装备掉率）</div>
+    <p>小米评分 2.7，TapTap 负面集中于三点：<span class="hl">付费点密度</span>（每日礼包+周礼包+战令+月卡+新角色）、<span class="hl">掉率挫败</span>（主线法宝材料十几把不掉）、<span class="hl">角色付费化</span>（第三角色 6 元）。</p>
+    <div class="note"><b>笔者认为：</b>这套商业化本身是自洽的——数值线免费、抽卡线付费、每日¥6做习惯付费，是页游团队向手游 LTV 模型的迁移。真正的风险在<b>错配</b>：造梦 IP 的存量用户是当年玩免费页游的学生群体，付费能力与付费点密度不匹配，口碑反噬就集中在"情怀税"的指控上。<b>商业化强度没有错，错的是和这批用户的关系。</b></div>
+  </div>
+</section>
+
+<!-- ================= 09 运营与留存 ================= -->
+<section class="zhang" id="z9">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">玖</span></div>
+    <div class="zhang-tt">
+      <h2>运营与留存</h2>
+      <p>OPERATION · 周更节奏、赛季制与节日全勤</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-calendar"/></svg></div><h3>9.1 周更时间线复盘（7.24 → 9.4）</h3><span class="p-sub">信源：官方更新公告</span></div>
+    <div class="tline">
+      <div class="tl-item"><div class="tl-date kai">7.24</div><div class="tl-body">地府主线"冥海" + 修心上限50 + 新法宝"咒骨罪简" + 悬赏（忘川捕鱼/护送冥蝶）+ 铁扇公主预告</div></div>
+      <div class="tl-item"><div class="tl-date kai">7.31</div><div class="tl-body"><b>大版本</b>：器灵系统上线（唤灵卡池+灵印）——全新的付费深度线</div></div>
+      <div class="tl-item"><div class="tl-date kai">8.07</div><div class="tl-body">NPC梁祝 + 成就扩充 + 灵鸟孵宠机器人匹配 + 二级密码 + 衣柜登录效果</div></div>
+      <div class="tl-item"><div class="tl-date kai">8.14</div><div class="tl-body"><b>大版本</b>：主线"赤湖" + 等级上限55 + 地府主城葬土 + 长安演武场 + 七夕活动</div></div>
+      <div class="tl-item"><div class="tl-date kai">8.21</div><div class="tl-body">中元节玩法"夜开鬼门" + 活动战令"夜行录" + 冥罗鬼面时装</div></div>
+      <div class="tl-item"><div class="tl-date kai">8.28</div><div class="tl-body"><b>大版本</b>：宠物PK"万灵演武" + 新宠物狻猊 + 滔天牛魔三阶段 + 战令更新</div></div>
+      <div class="tl-item"><div class="tl-date kai">9.04</div><div class="tl-body">地府主线"朽枯林" + 等级上限60 + 宠物装备传承 + 熔火装备 + 万灵演武战报回放 + 教师节活动</div></div>
+    </div>
+    <p>规律非常清晰：<b>每周五停服更新，"大版本（新系统/新地图）→ 小版本（活动/优化）"交替</b>。7 周内投放了 1 个新付费系统、3 张新地图、2 个新玩法、2 次等级上限上调（55→60）——<span class="hl">这个内容产能对小团队来说相当恐怖</span>，大概率是版本预埋充足+活动模板化流水线。</p>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-magnet"/></svg></div><h3>9.2 留存钩子盘点</h3><span class="p-sub">信源：实机 + 公告</span></div>
+    <ul class="dots">
+      <li><b>节日全勤</b>：七夕（佳人相伴）、中元（夜开鬼门）、教师节（文曲下凡）——两周一个主题活动，全部走"限时玩法+限定外观+活动战令"三件套。</li>
+      <li><b>赛季制</b>："魔焰滔天"赛季（牛魔谷剧情本+梦墟+魂器+赛季签到/任务+唤醒牛魔集齐4道具解锁角色）——Endgame 用赛季内容托底。</li>
+      <li><b>日常四件套</b>：七日签到阶梯、七日任务（官方话术"每日15分钟"）、在线时长奖励、修心每日免费顿悟——登录→在线→轻养成三层打卡。</li>
+      <li><b>减负跟进</b>：夜开鬼门扫荡（8/22 热更补上）、万灵演武×2倍速、一键装卸/一键升级——运营侧对"上班感"的反馈响应很快。</li>
+    </ul>
+    <div class="shots one">
+      <figure class="shot" data-cap="图29 · 夜开鬼门主题活动界面：中元节限时玩法">
+        <img src="images/夜开鬼门主题活动界面.png" alt="夜开鬼门主题活动界面" loading="lazy">
+        <figcaption><span class="no">图29</span>夜开鬼门 · 节日主题限时玩法（8/21 上线，一周后即补扫荡）</figcaption>
+      </figure>
+    </div>
+    <div class="note"><b>判断：</b>周更大小交替+节日全勤的运营强度，短期数据必然好看；风险在<span class="hl">内容消耗速度 vs 产能天花板</span>——当"新系统"库存耗尽（器灵已是抽卡深水区），周更只能靠活动回锅，留存曲线会检验这套打法的续航。</div>
+  </div>
+</section>
+
+<!-- ================= 10 UI/UX 与美术 ================= -->
+<section class="zhang" id="z10">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">拾</span></div>
+    <div class="zhang-tt">
+      <h2>UI / UX 与美术</h2>
+      <p>ART & UX · 拟物木质UI体系与双主题美术</p>
+    </div>
+    <div class="zhang-seal kai">拆解</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-brush"/></svg></div><h3>10.1 视觉语言：一套UI，两块色板</h3><span class="p-sub">综合拆解（本文档视觉系统亦复刻自此）</span></div>
+    <ul class="dots">
+      <li><b>双色板叙事</b>：敦煌/人间章节用<span class="gld">暖金云纹</span>（选角界面：暖金云海+木棕框架+朱红点缀），地府章节用<span class="gld">暗夜蓝绿+幽绿鬼火</span>（登录界面：石殿+鬼火）。UI 骨架不变，换色板即换章节情绪——美术资源复用率极高的主题化方案。</li>
+      <li><b>拟物木质UI</b>：面板=羊皮纸底+木框+四角铆钉；按钮=鎏金渐变+深木描边；页签=木质竖排/横排；强调=书法字+朱印。在扁平化流行的 2026 年手游里，这套拟物风反而形成了<span class="hl">强辨识度的"游戏感"</span>。</li>
+      <li><b>角色设计</b>：二头身Q版+华丽技能特效；卡池 Banner 用水墨泼墨风（图16 绯廉落羽）——Q版保证亲和力，泼墨拉品质感，两套画法分工明确。</li>
+      <li><b>打击反馈包装</b>：书法体连击数、金色伤害数字、Boss 护盾环——动作反馈全部"国画化"包装，风格统一。</li>
+    </ul>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-sliders"/></svg></div><h3>10.2 UX 减负设计汇总</h3><span class="p-sub">把九线养成压进可玩清单的手段</span></div>
+    <table class="tbl">
+      <tr><th style="width:30%">设计</th><th>位置与效果</th></tr>
+      <tr><td><b>变强指引聚合</b></td><td>九线养成一屏导航+一键跳转（图10）</td></tr>
+      <tr><td><b>一键化三连</b></td><td>宝石一键装卸 / 技能一键升级 / 活动扫荡</td></tr>
+      <tr><td><b>保底透明化</b></td><td>"再抽131次必出传说"直接写在卡池Banner（图16）</td></tr>
+      <tr><td><b>红点+功能预告</b></td><td>未解锁系统发福利预埋（器灵上线前送40卷）</td></tr>
+      <tr><td><b>嵌入场景的社交</b></td><td>聊天栏/组队招募常驻主界面，无独立社交大厅</td></tr>
+      <tr><td><b>安全兜底</b></td><td>二级密码（8/7）、潜能忘潜书重置、装备合成出口</td></tr>
+    </table>
+    <p>本拆解案自身也做了一次视觉迭代对照：v1 采用水墨暗色风（图30），v2 即当前版本——直接复刻游戏的木质/羊皮纸/鎏金 UI 语言，让"阅读拆解"的观感贴近"玩游戏"的观感。</p>
+    <div class="shots one">
+      <figure class="shot" data-cap="图30 · 第一版视觉参考：v1水墨暗色风格的拆解文档">
+        <img src="images/第一版视觉参考.png" alt="第一版视觉参考" loading="lazy">
+        <figcaption><span class="no">图30</span>v1 视觉参考 · 水墨暗色风（对比本版游戏化视觉）</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 11 优劣评析 ================= -->
+<section class="zhang" id="z11">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">拾壹</span></div>
+    <div class="zhang-tt">
+      <h2>优劣评析</h2>
+      <p>REVIEW · 亮点、短板与风险</p>
+    </div>
+    <div class="zhang-seal kai">评析</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-sealcheck"/></svg></div><h3>11.1 值得学的设计亮点</h3><span class="p-sub">笔者评判</span></div>
+    <ul class="dots">
+      <li><b>连击保护护盾三件套</b>（连击计数→Boss开盾→×5架势可视化）：低成本解决无限连/节奏/深度三题，本作战斗最优设计。</li>
+      <li><b>器灵资源闭环</b>：抽卡+升星+灵印+三层回收无死资源，卡牌经济成熟度超标。</li>
+      <li><b>旧资产出口意识</b>：装备合成法宝、宠物装备传承、残魂分解——养成废档挫败被系统性对冲。</li>
+      <li><b>周更大小版本交替</b>：7周1付费系统+3地图+2玩法的产能节奏，运营执行力强。</li>
+      <li><b>保底透明化+变强聚合面板</b>：抽卡焦虑和"系统太多不知道先玩哪个"这两个最容易劝退的点，都被正面处理掉了。</li>
+    </ul>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-warning"/></svg></div><h3>11.2 短板与风险</h3><span class="p-sub">笔者评判 · 含社区佐证</span></div>
+    <ul class="dots">
+      <li><b>商业化与用户错配</b>：每日¥6+周礼包+6元角色+多期战令的密度，砸在低付费能力的IP情怀用户上，口碑反噬（小米 2.7 分）。<br><span class="hl">→ 改进方向：</span>收缩付费点密度、把让利集中做进情怀场景（如回流礼包），预期评分面修复+口碑传播回暖【推测】。</li>
+      <li><b>掉率挫败</b>：主线法宝材料低掉率+复活币消耗，刷装体验在社区被集中吐槽；"爆率差几百倍"的体感需要数值侧复核。<br><span class="hl">→ 改进方向：</span>公示掉率区间+保底次数，预期挫败感帖子占比下降、刷装留存回升【推测，需数据复核】。</li>
+      <li><b>日常负担重</b>：九线养成全清估算 60~90 分钟/天【推测】，"上班感"是流失隐患。<br><span class="hl">→ 改进方向：</span>周常化+一键清扫聚合，压缩到 30 分钟档，预期中小 R 日活跃时长结构更健康【推测】。</li>
+      <li><b>关卡机制单一</b>：走图+Boss两板斧复用度高，机制型关卡缺位，长线内容风险。<br><span class="hl">→ 改进方向：</span>每季一张"机制图"（机关解谜/防御波次），预期为长线留存提供新鲜感补给【推测】。</li>
+      <li><b>难度曲线失衡【实测】</b>：自第二张地图开始，逐关难度递进明显失当，第二张地图尤为突出——Boss 数值过高，卡关频次陡增，对玩家体验极不友好。这与 1.2 节"三角色+低门槛动作保底下沉用户"的新手定位直接相悖：前期低门槛建立的手感自信，在第二张地图被 Boss 数值墙硬性击穿，情怀与休闲用户最先流失。<br><span class="hl">→ 改进方向：</span>本文第 12.1 节给出了逐关数值调整方案，预期卡关频次回落、前期留存曲线修复【推测】。</li>
+      <li><b>特效可读性</b>：全屏火系特效偶尔遮挡操作视野，动作游戏的可读性红线。<br><span class="hl">→ 改进方向：</span>敌我弹幕分层透明度+关键判定帧高亮，预期高难本容错率改善【推测】。</li>
+    </ul>
+    <div class="note"><b>总评：</b>这是一款<b>系统设计成熟度显著高于口碑表现</b>的产品——问题不在"会不会做"，在"为谁而做"。若商业化节奏对IP用户让利更多，评分面会完全不同。</div>
+  </div>
+</section>
+
+<!-- ================= 12 改进提案 ================= -->
+<section class="zhang" id="z12">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">拾贰</span></div>
+    <div class="zhang-tt">
+      <h2>如果我是系统策划</h2>
+      <p>DESIGN PROPOSAL · 从拆解到设计的闭环</p>
+    </div>
+    <div class="zhang-seal kai">提案</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-stairs"/></svg></div><h3>12.1 难度曲线数值调整方案</h3><span class="p-sub">设计提案 · 回应 11.2 实测痛点</span></div>
+    <p>针对 11.2 节实测发现的"第二张地图 Boss 数值墙"，给出一版可直接进评审的调整思路。锚点均来自实机数据：图04 关卡推荐战力 <span class="gld">105600</span> / 推荐等级 57，6.1 节 54 级玩家实际战力 <span class="gld">107762</span>，当前等级上限 60（9.1 节）。采用<b>相对系数法</b>而非绝对值——不依赖逐关埋点数据即可评审，落地时再代入真实数值。</p>
+    <table class="tbl">
+      <tr><th style="width:22%">调整项</th><th>现状【推测/实测】</th><th>建议系数</th><th style="width:26%">设计意图</th></tr>
+      <tr><td><b>推荐战力梯度</b></td><td>第二图部分关卡较前一关跳涨 15%+【体感推测】</td><td>相邻普通关 ≤1.06x，Boss 关 ≤1.10x</td><td>延续第一张图已验证的平缓手感，曲线贴合 1.2 节下沉定位</td></tr>
+      <tr><td><b>Boss HP 系数</b></td><td>第二图 Boss 血量相对玩家成长曲线过陡【实测卡关】</td><td>以第一图为基准 1.0，回调至 0.85~0.92</td><td>数值墙让位于机制学习，保证卡点时长 ≤3 次尝试</td></tr>
+      <tr><td><b>Boss 伤害系数</b></td><td>推荐战力达标仍接近两刀死亡【实测体感】</td><td>按"达标玩家标准配装可承受 4~5 次受击"反推</td><td>受击容错回归动作游戏常规区间</td></tr>
+      <tr><td><b>护盾触发联动</b></td><td>数值与机制同时施压：高伤害+高频开盾【实测】</td><td>数值墙 Boss 的连击开盾阈值上调 20%</td><td>3.2 节护盾机制保留，但不与数值墙叠加施压</td></tr>
+    </table>
+    <div class="note"><b>验证方案：</b>上线 A/B（调整组 vs 原值组），观测第二图逐关<b>通关率、复活消耗次数、弃坑点位分布</b>三项指标；预期卡关频次回落、前期留存曲线修复【推测】。</div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-hongbao"/></svg></div><h3>12.2 付费点设计稿：「归梦令」情怀回流礼包</h3><span class="p-sub">设计提案 · 回应 8.2 商业化错配</span></div>
+    <table class="tbl">
+      <tr><th style="width:22%">设计项</th><th>方案</th></tr>
+      <tr><td><b>触发时机</b></td><td>回归玩家（≥3 日未登录）次日登录；或首次击败第二张地图 Boss 后当日一次性引导——在 11.2 实测的挫败时刻做<b>负情绪转化</b>，而非硬广弹窗</td></tr>
+      <tr><td><b>定价</b></td><td>¥6——对齐 8.2 节已验证的每日¥6 习惯付费档，<b>不新增价格锚点</b></td></tr>
+      <tr><td><b>内容构成</b></td><td>复活币×5（回应 11.2 掉率/复活痛点）+ 体力×2 + 限定风物「飞天残影」（5.5 节风物线的收藏向钩子，<b>无数值属性</b>——规避 P2W 指控）</td></tr>
+      <tr><td><b>呈现形式</b></td><td>羊皮卷轴式弹窗 + 情怀文案（"西行路上，等你归队"），复用 10.1 节双色板视觉语言</td></tr>
+    </table>
+    <div class="note"><b>设计意图：</b>把 8.2 节"挤压式付费"里拆出一个<b>信任型让利点</b>——刚需道具 + 无属性外观的组合降低情怀用户抵触。<b>预期效果【推测】：</b>回流玩家次日留存与口碑评分双向修复。<b>风险提示：</b>与现有每日¥6 档并存会稀释稀缺感，建议月历位轮换投放。</div>
+  </div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-loop"/></svg></div><h3>12.3 提案方法论</h3><span class="p-sub">框架迁移性说明</span></div>
+    <p>本章演示了 0.1 节速查表框架的完整迁移路径：<span class="gld">拆解结论（11.2）→ 归因（数值墙 vs 定位错配）→ 设计干预（系数表 / 礼包稿）→ 验证方案（A/B 指标）</span>。同一路径可平移至任意横版 ARPG 的系统评审——拆解不是终点，能从拆解推出可落地的设计干预，才算走完策划的闭环。</p>
+  </div>
+</section>
+
+<!-- ================= 13 拆解结语 ================= -->
+<section class="zhang" id="z13">
+  <div class="zhang-head reveal">
+    <div class="zhang-num"><span class="kai">拾叁</span></div>
+    <div class="zhang-tt">
+      <h2>拆解结语</h2>
+      <p>TAKEAWAYS · 写在拆解完成之后</p>
+    </div>
+    <div class="zhang-seal kai">结语</div>
+  </div>
+  <div class="zhang-line"></div>
+
+  <div class="panel reveal">
+    <div class="rv2"></div><div class="rv3"></div>
+    <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-stamp"/></svg></div><h3>13.1 拆解结语</h3><span class="p-sub">笔者观点</span></div>
+    <p>《造梦西游6》给我的最大启示是：<span class="hl">横版 ARPG 这个"老品类"的竞争力公式已经变了</span>——操作手感是入场券，真正的胜负手在养成广度的管理能力（回收、聚合、保底、减负）和内容产能的运营节奏（周更、赛季、节日全勤）。它把页游时代学到的"数值养成+节日运营"两门手艺，装进了现代手游的 LTV 框架，系统完成度是认真的；而口碑困境同样值得记住：<b>当你的用户因情怀而来，任何向付费的挤压都会被放大成"情怀税"</b>。设计能解决效率问题，解决不了和用户的关系问题——这也是笔者认为整个拆解过程中最值得记下来的一句。</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="footer">
+  <div class="f-seal kai">完</div>
+  <p>《造梦西游6：黎尤浩劫篇》系统策划拆解案 · 4399面试作品<br>
+  信源：37张实机截图（版本1.0.9a）+ 官方更新公告（2026.7.24–9.4）+ 自制宣传视频 + TapTap/小米社区公开信息<br>
+  标注体系：【实机】截图可证 ｜【公告】官方口径 ｜【推测】逻辑推演 ｜【判断】笔者观点 · 拆解仅供学习交流</p>
+</footer>
+
+<!-- 返回顶部 / 灯箱 -->
+<a class="to-top" id="toTop" href="#top" title="返回顶部">▲</a>
+<div class="lightbox" id="lightbox"><img id="lbImg" src="" alt=""><div class="lb-cap kai" id="lbCap"></div></div>
+
+<script>
+// ---------- 滚动渐入 ----------
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ---------- 导航高亮（scrollspy） ----------
+const tabs=[...document.querySelectorAll('.nav-tab')];
+const secs=tabs.map(t=>document.querySelector(t.getAttribute('href')));
+const spy=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      tabs.forEach(t=>t.classList.toggle('active', t.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+secs.forEach(s=>s&&spy.observe(s));
+
+// ---------- 返回顶部显隐 ----------
+const toTop=document.getElementById('toTop');
+addEventListener('scroll',()=>{ toTop.classList.toggle('show', scrollY>600); },{passive:true});
+
+// ---------- 灯箱 ----------
+const lb=document.getElementById('lightbox'), lbImg=document.getElementById('lbImg'), lbCap=document.getElementById('lbCap');
+document.querySelectorAll('.shot').forEach(f=>{
+  f.addEventListener('click',()=>{
+    const img=f.querySelector('img');
+    lbImg.src=img.src; lbImg.alt=img.alt;
+    lbCap.textContent=f.dataset.cap||'';
+    lb.classList.add('open'); document.body.style.overflow='hidden';
+  });
+});
+lb.addEventListener('click',()=>{ lb.classList.remove('open'); document.body.style.overflow=''; });
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&lb.classList.contains('open')){ lb.classList.remove('open'); document.body.style.overflow=''; } });
+
+// ---------- 宣传视频：进场静音自动播放 / 离屏暂停（尊重系统"减动效"偏好） ----------
+const promoVideo=document.getElementById('promoVideo');
+if(promoVideo){
+  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vio=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        if(!reducedMotion && promoVideo.paused){ promoVideo.play().catch(()=>{}); }
+      }else if(!promoVideo.paused){
+        promoVideo.pause();
+      }
+    });
+  },{threshold:.35});
+  vio.observe(promoVideo);
+}
+</script>
+</body>
+</html>
