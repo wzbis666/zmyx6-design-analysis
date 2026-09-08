@@ -174,25 +174,6 @@ body{
   width:7px;height:7px;border-radius:50%;background:var(--gold-light);
   box-shadow:0 0 6px rgba(255,222,130,.9);flex-shrink:0;
 }
-/* 开始游戏样式按钮（复刻选角界面CTA） */
-.btn-game{
-  display:inline-flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none;
-  font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-size:21px;letter-spacing:5px;
-  color:#4a2c08;padding:12px 52px 13px 58px;border-radius:26px;position:relative;
-  background:linear-gradient(180deg,#ffefb0 0%,var(--gold) 46%,#c8933a 100%);
-  border:3px solid #4a2c08;
-  box-shadow:0 4px 0 #3a2208, 0 8px 18px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,255,.65);
-  transition:all .15s ease;
-}
-.btn-game::before,.btn-game::after{
-  content:'';position:absolute;top:50%;width:26px;height:14px;transform:translateY(-50%);
-  background:radial-gradient(circle at 50% 50%, rgba(255,244,200,.9), rgba(255,244,200,0) 68%);
-  pointer-events:none;
-}
-.btn-game::before{left:12px}
-.btn-game::after{right:12px}
-.btn-game:hover{filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 6px 0 #3a2208,0 12px 24px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.65)}
-.btn-game:active{transform:translateY(3px);box-shadow:0 1px 0 #3a2208,0 4px 10px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.5)}
 .hero-ver{
   position:absolute;bottom:14px;left:20px;z-index:2;
   font-size:12.5px;color:rgba(246,234,208,.85);letter-spacing:1px;
@@ -469,7 +450,7 @@ ul.dots li::before{
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal{opacity:1;transform:none;transition:none}
-  .panel,.shot,.loop-node,.btn-game,.nav-tab,.to-top{transition:none}
+  .panel,.shot,.loop-node,.nav-tab,.to-top{transition:none}
 }
 
 /* ---------- 响应式 ---------- */
@@ -486,7 +467,6 @@ ul.dots li::before{
   .zhang-seal{display:none}
   .hero{background-attachment:scroll;padding:104px 16px 60px}
   .hero-tag{letter-spacing:3px;font-size:13px;padding:5px 12px 5px 16px}
-  .btn-game{padding:10px 34px 11px 40px;font-size:18px}
   .loop-node{margin:14px 10px}
   .loop-node::after{display:none}
   .promo-frame{padding:8px 8px 5px;border-radius:12px}
@@ -569,7 +549,6 @@ ul.dots li::before{
         <span class="chip"><b>能力闭环</b> 拆解 → 归因 → 设计干预 → 验证</span>
         <span class="chip"><b>视角</b> 个人策划 · 含主观判断</span>
       </div>
-      <a class="btn-game kai" href="#z0">开始阅读</a>
     </div>
     <div class="hero-media">
       <figure class="promo-frame">
