@@ -13,7 +13,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="assets/favicon/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
 <meta name="theme-color" content="#2b1a08">
-<title>《造梦西游6：黎尤浩劫篇》系统策划拆解案</title>
+<title>《造梦西游6：黎尤浩劫篇》系统拆解 × 设计提案</title>
 <link rel="preconnect" href="https://fonts.loli.net">
 <link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <style>
@@ -457,12 +457,18 @@ ul.dots li::before{
 .lightbox img{max-width:96vw;max-height:88vh;border:3px solid var(--gold);border-radius:10px;box-shadow:0 0 40px rgba(233,194,104,.35)}
 .lightbox .lb-cap{
   position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
-  color:var(--gold-light);font-size:15px;letter-spacing:2px;text-shadow:0 2px 6px #000;white-space:nowrap;
+  max-width:92vw;color:var(--gold-light);font-size:15px;letter-spacing:2px;
+  text-shadow:0 2px 6px #000;text-align:center;line-height:1.6;
 }
 
 /* ---------- 入场动画 ---------- */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
 .reveal.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .panel,.shot,.loop-node,.btn-game,.nav-tab,.to-top{transition:none}
+}
 
 /* ---------- 响应式 ---------- */
 @media (max-width:980px){
@@ -477,6 +483,7 @@ ul.dots li::before{
   .panel{padding:20px 16px}
   .zhang-seal{display:none}
   .hero{background-attachment:scroll;padding:104px 16px 60px}
+  .hero-tag{letter-spacing:3px;font-size:13px;padding:5px 12px 5px 16px}
   .btn-game{padding:10px 34px 11px 40px;font-size:18px}
   .loop-node{margin:14px 10px}
   .loop-node::after{display:none}
@@ -527,7 +534,7 @@ ul.dots li::before{
 <!-- ================= 导航 ================= -->
 <nav class="game-nav">
   <a class="nav-logo" href="#top">
-    <span class="seal-mini kai">拆</span><b>造梦西游6 · 策划拆解案</b>
+    <span class="seal-mini kai">拆</span><b>造梦西游6 · 拆解 × 设计提案</b>
   </a>
   <div class="nav-tabs">
     <a class="nav-tab" href="#z0">总览</a>
@@ -551,13 +558,14 @@ ul.dots li::before{
 <header class="hero" id="top">
   <div class="hero-inner">
     <div class="hero-info">
-      <div class="hero-tag kai">系统策划拆解 · 4399面试作品</div>
+      <div class="hero-tag kai">系统策划作品 · 从拆解到设计提案</div>
       <h1 class="hero-title kai">造梦西游6</h1>
       <div class="hero-sub kai">黎尤浩劫篇 <em>· 敦煌异境风云乍起 ·</em></div>
       <div class="hero-chips">
         <span class="chip"><b>信源</b> 37张实机截图 + 官方更新公告</span>
         <span class="chip"><b>版本</b> 1.0.9a · 等级上限60</span>
-        <span class="chip"><b>视角</b> 个人策划向拆解 · 含主观判断</span>
+        <span class="chip"><b>能力闭环</b> 拆解 → 归因 → 设计干预 → 验证</span>
+        <span class="chip"><b>视角</b> 个人策划 · 含主观判断</span>
       </div>
       <a class="btn-game kai" href="#z0">开始阅读</a>
     </div>
@@ -573,7 +581,7 @@ ul.dots li::before{
       </figure>
     </div>
   </div>
-  <div class="hero-ver">版本号1.0.9a ｜ 4399 造梦工作室 ｜ 拆解案 v2 · 游戏化视觉</div>
+  <div class="hero-ver">版本号1.0.9a ｜ 4399 造梦工作室 ｜ 面试作品 v2 · 游戏化视觉</div>
 </header>
 
 <main class="wrap">
@@ -593,12 +601,10 @@ ul.dots li::before{
   <div class="panel reveal">
     <div class="rv2"></div><div class="rv3"></div>
     <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-grid9"/></svg></div><h3>系统拆解全景图</h3><span class="p-sub">点击图片查看原尺寸</span></div>
-    <a href="assets/mindmap-overview.png" target="_blank" rel="noopener" aria-label="查看思维导图原图">
-      <figure class="shot" data-cap="《造梦西游6 黎尤浩劫篇 · 系统拆解》思维导图总览：核心体验 / 养成系统 / 玩法系统 / 社交竞技系统 / 经济充值系统 / 新手引导与留存" style="margin:0">
-        <img src="assets/mindmap-overview.png" alt="造梦西游6 系统拆解思维导图总览" loading="lazy" style="width:100%;border-radius:6px">
-        <figcaption><span class="no">导图</span>系统拆解总览 · 六大分支一图尽览（点击查看原图）</figcaption>
-      </figure>
-    </a>
+    <figure class="shot" data-cap="《造梦西游6 黎尤浩劫篇 · 系统拆解》思维导图总览：核心体验 / 养成系统 / 玩法系统 / 社交竞技系统 / 经济充值系统 / 新手引导与留存" style="margin:0">
+      <img src="assets/mindmap-overview.png" alt="造梦西游6 系统拆解思维导图总览" loading="lazy" style="width:100%;border-radius:6px;aspect-ratio:auto;object-fit:contain">
+      <figcaption><span class="no">导图</span>系统拆解总览 · 六大分支一图尽览（点击放大）</figcaption>
+    </figure>
     <p>这张导图是本拆解案的总纲——六大分支与正文章节的对应关系如下，可按图索骥：</p>
     <table class="tbl">
       <tr><th style="width:34%">导图分支</th><th>对应章节</th></tr>
@@ -609,7 +615,7 @@ ul.dots li::before{
       <tr><td><b>经济充值系统</b>（内购币 / 付费点 / 充值返利）</td><td>8 经济与商业化</td></tr>
       <tr><td><b>新手引导与留存</b>（新手钩子 / 日常 / 赛季继承）</td><td>2 核心玩法循环 · 9 运营与留存</td></tr>
     </table>
-    <div class="note"><b>阅读建议：</b>先看导图建立全景，再顺 1→13 章深入；10 章 UI 视觉、11 章评析与 12 章设计提案是本文在导图框架之上的延伸——不仅拆解，还给出评价与改进方案。</div>
+    <div class="note"><b>阅读建议：</b>先看导图建立全景；1→10 章以【实机】【公告】为证据完成系统拆解，11 章对优劣做归因，12 章把拆解结论推进为可进评审的设计干预（难度数值方案 / 付费点设计稿 / A/B 验证指标）。拆解证明分析力，提案证明设计力——这份作品真正想交出的，是一条完整的策划闭环。</div>
   </div>
 </section>
 
@@ -628,7 +634,7 @@ ul.dots li::before{
   <div class="panel reveal">
     <div class="rv2"></div><div class="rv3"></div>
     <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-compass"/></svg></div><h3>1.1 产品定位与系列沿革</h3><span class="p-sub">信源：官网 / 平台页</span></div>
-    <p>《造梦西游之黎尤浩劫篇》是 4399 造梦工作室的<span class="gld">系列第六作</span>，2026 年上半年上线，当前版本 <span class="gld">1.0.9a</span>（截图版本号）。系列脉络清晰：页游时代的造梦西游 1~5 部曲 → 手游《造梦西游OL》→ 双端作品《造梦无双》→ 如今的《造梦6》。官方定位一句话：<b>2D 横版国风动作（ARPG）+ 多线养成手游</b>，主打"敦煌异境"新题材。</p>
+    <p>《造梦西游6：黎尤浩劫篇》是 4399 造梦工作室的<span class="gld">系列第六作</span>，2026 年上半年上线，当前版本 <span class="gld">1.0.9a</span>（截图版本号）。系列脉络清晰：页游时代的造梦西游 1~5 部曲 → 手游《造梦西游OL》→ 双端作品《造梦无双》→ 如今的《造梦6》。官方定位一句话：<b>2D 横版国风动作（ARPG）+ 多线养成手游</b>，主打"敦煌异境"新题材。</p>
     <p>拿它和系列前作放在一起看，笔者认为《造梦6》不能算《造梦无双》的换皮，更像是把页游的老底子认认真真重做了一遍手游：木质拟物 UI、书法字体、朱印标签这些视觉资产原样继承，OL 时代那条朴素的装备/宠物线，则被扩成了九线并行的养成矩阵（第五章细说）。</p>
     <div class="shots">
       <figure class="shot" data-cap="图01 · 登录界面：地府场景+鬼火元素，右下角12+适龄提示">
@@ -722,7 +728,7 @@ ul.dots li::before{
       <tr><td><b>第 6 关</b></td><td>装备强化（+12）、材料本"葛芦之山"（每日2次）</td><td>第一条硬养成线落地</td></tr>
       <tr><td><b>第 9 关</b></td><td>长安演武（异步PVP）、宝石镶嵌</td><td>战力验证场 + 新养成线</td></tr>
       <tr><td><b>第 10 关</b></td><td>灵鸟孵宠（3v3 夺蛋竞技）</td><td>PVP 差异化玩法</td></tr>
-      <tr><td><b>第 12 关</b></td><td>梦墟副本 + "魔焰滔天"赛季 + 魂器</td><td> Endgame 内容 + 赛季制启动</td></tr>
+      <tr><td><b>第 12 关</b></td><td>梦墟副本 + "魔焰滔天"赛季 + 魂器</td><td>Endgame 内容 + 赛季制启动</td></tr>
     </table>
     <div class="note"><b>判断：</b>前 12 关铺满九大系统，节奏激进——按单关 5~9 分钟估算，平均每两三关就解锁一个新系统。好处是新手期留存数据好看，代价是<b>系统教学负担重、日常清单在前三天就堆满</b>，为后期"上班感"埋下伏笔。</div>
   </div>
@@ -855,7 +861,7 @@ ul.dots li::before{
         <img src="images/fig12.png" alt="关卡地图全貌" loading="lazy">
         <figcaption><span class="no">图05</span>人间页地图 · 唐风城镇群与任务追踪</figcaption>
       </figure>
-      <figure class="shot" data-cap="图31 · 赤湖地图实机：丹霞地貌主题章节">
+      <figure class="shot" data-cap="图31 · 赤湖关卡实机：丹霞地貌主题章节">
         <img src="images/fig13.png" alt="赤湖地图实机画面" loading="lazy">
         <figcaption><span class="no">图31</span>赤湖实机 · 主题化地貌配色</figcaption>
       </figure>
@@ -1013,7 +1019,7 @@ ul.dots li::before{
   <div class="panel reveal">
     <div class="rv2"></div><div class="rv3"></div>
     <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-frame"/></svg></div><h3>5.5 风物图鉴：收集向的第三空间</h3><span class="p-sub">信源：实机截图 35/36/37</span></div>
-    <p>风物（图鉴收集品，如"染瘟枯棘"）有三件套：<span class="gld">风物总览 → 系列图鉴 → 获取动画</span>。每章新关卡投放新系列风物（地府篇"染瘟枯棘"），收集齐有展示与属性收益。判断：风物线的数值权重很低，真正的价值是<b>给"看风景"的玩家一个理由</b>——美术资源顺手二次利用成长线收集目标，几乎是白捡的长线内容。</p>
+    <p>风物（图鉴收集品，如"染瘟枯棘"）有三件套：<span class="gld">风物总览 → 系列图鉴 → 获取动画</span>。每章新关卡投放新系列风物（地府章"黄泉篇"的"染瘟枯棘"），收集齐有展示与属性收益。判断：风物线的数值权重很低，真正的价值是<b>给"看风景"的玩家一个理由</b>——美术资源顺手二次利用成长线收集目标，几乎是白捡的长线内容。</p>
     <div class="shots">
       <figure class="shot" data-cap="图35 · 风物总览">
         <img src="images/fig27.png" alt="风物总览" loading="lazy">
@@ -1281,7 +1287,7 @@ ul.dots li::before{
     <div class="zhang-num"><span class="kai">拾壹</span></div>
     <div class="zhang-tt">
       <h2>优劣评析</h2>
-      <p>REVIEW · 亮点、短板与风险</p>
+      <p>REVIEW · 亮点、短板与归因</p>
     </div>
     <div class="zhang-seal kai">评析</div>
   </div>
@@ -1303,7 +1309,7 @@ ul.dots li::before{
     <div class="rv2"></div><div class="rv3"></div>
     <div class="panel-h"><div class="p-icon"><svg aria-hidden="true"><use href="#ic-warning"/></svg></div><h3>11.2 短板与风险</h3><span class="p-sub">笔者评判 · 含社区佐证</span></div>
     <ul class="dots">
-      <li><b>商业化与用户错配</b>：每日¥6+周礼包+6元角色+多期战令的密度，砸在低付费能力的IP情怀用户上，口碑反噬（小米 2.7 分）。<br><span class="hl">→ 改进方向：</span>收缩付费点密度、把让利集中做进情怀场景（如回流礼包），预期评分面修复+口碑传播回暖【推测】。</li>
+      <li><b>商业化与用户错配</b>：每日¥6+周礼包+6元角色+多期战令的密度，砸在低付费能力的IP情怀用户上，口碑反噬（小米 2.7 分）。<br><span class="hl">→ 改进方向：</span>收缩付费点密度、把让利集中做进情怀场景（如回流礼包，设计稿见 12.2），预期评分面修复+口碑传播回暖【推测】。</li>
       <li><b>掉率挫败</b>：主线法宝材料低掉率+复活币消耗，刷装体验在社区被集中吐槽；"爆率差几百倍"的体感需要数值侧复核。<br><span class="hl">→ 改进方向：</span>公示掉率区间+保底次数，预期挫败感帖子占比下降、刷装留存回升【推测，需数据复核】。</li>
       <li><b>日常负担重</b>：九线养成全清估算 60~90 分钟/天【推测】，"上班感"是流失隐患。<br><span class="hl">→ 改进方向：</span>周常化+一键清扫聚合，压缩到 30 分钟档，预期中小 R 日活跃时长结构更健康【推测】。</li>
       <li><b>关卡机制单一</b>：走图+Boss两板斧复用度高，机制型关卡缺位，长线内容风险。<br><span class="hl">→ 改进方向：</span>每季一张"机制图"（机关解谜/防御波次），预期为长线留存提供新鲜感补给【推测】。</li>
@@ -1384,14 +1390,15 @@ ul.dots li::before{
 <!-- ================= 页脚 ================= -->
 <footer class="footer">
   <div class="f-seal kai">完</div>
-  <p>《造梦西游6：黎尤浩劫篇》系统策划拆解案 · 4399面试作品<br>
+  <p>《造梦西游6：黎尤浩劫篇》系统拆解 × 设计提案 · 4399面试作品<br>
   信源：37张实机截图（版本1.0.9a）+ 官方更新公告（2026.7.24–9.4）+ 自制宣传视频 + TapTap/小米社区公开信息<br>
+  方法论闭环：系统拆解（1-10 章）→ 优劣归因（11 章）→ 设计干预与验证（12 章）<br>
   标注体系：【实机】截图可证 ｜【公告】官方口径 ｜【推测】逻辑推演 ｜【判断】笔者观点 · 拆解仅供学习交流</p>
 </footer>
 
 <!-- 返回顶部 / 灯箱 -->
 <a class="to-top" id="toTop" href="#top" title="返回顶部">▲</a>
-<div class="lightbox" id="lightbox"><img id="lbImg" src="" alt=""><div class="lb-cap kai" id="lbCap"></div></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片放大查看"><img id="lbImg" src="" alt=""><div class="lb-cap kai" id="lbCap"></div></div>
 
 <script>
 // ---------- 滚动渐入 ----------
